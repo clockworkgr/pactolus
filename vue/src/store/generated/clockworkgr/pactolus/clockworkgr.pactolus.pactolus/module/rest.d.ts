@@ -1,5 +1,6 @@
 export declare type PactolusMsgCreateTokenResponse = object;
 export declare type PactolusMsgMintAndSendTokensResponse = object;
+export declare type PactolusMsgUpdateOwnerResponse = object;
 export declare type PactolusMsgUpdateTokenResponse = object;
 export interface PactolusQueryAllTokenResponse {
     token?: PactolusToken[];

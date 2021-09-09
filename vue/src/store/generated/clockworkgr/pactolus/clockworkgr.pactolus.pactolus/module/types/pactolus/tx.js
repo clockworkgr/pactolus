@@ -2,6 +2,127 @@
 import { Reader, util, configure, Writer } from 'protobufjs/minimal';
 import * as Long from 'long';
 export const protobufPackage = 'clockworkgr.pactolus.pactolus';
+const baseMsgUpdateOwner = { owner: '', denom: '', newowner: '' };
+export const MsgUpdateOwner = {
+    encode(message, writer = Writer.create()) {
+        if (message.owner !== '') {
+            writer.uint32(10).string(message.owner);
+        }
+        if (message.denom !== '') {
+            writer.uint32(18).string(message.denom);
+        }
+        if (message.newowner !== '') {
+            writer.uint32(26).string(message.newowner);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgUpdateOwner };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.owner = reader.string();
+                    break;
+                case 2:
+                    message.denom = reader.string();
+                    break;
+                case 3:
+                    message.newowner = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgUpdateOwner };
+        if (object.owner !== undefined && object.owner !== null) {
+            message.owner = String(object.owner);
+        }
+        else {
+            message.owner = '';
+        }
+        if (object.denom !== undefined && object.denom !== null) {
+            message.denom = String(object.denom);
+        }
+        else {
+            message.denom = '';
+        }
+        if (object.newowner !== undefined && object.newowner !== null) {
+            message.newowner = String(object.newowner);
+        }
+        else {
+            message.newowner = '';
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.owner !== undefined && (obj.owner = message.owner);
+        message.denom !== undefined && (obj.denom = message.denom);
+        message.newowner !== undefined && (obj.newowner = message.newowner);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgUpdateOwner };
+        if (object.owner !== undefined && object.owner !== null) {
+            message.owner = object.owner;
+        }
+        else {
+            message.owner = '';
+        }
+        if (object.denom !== undefined && object.denom !== null) {
+            message.denom = object.denom;
+        }
+        else {
+            message.denom = '';
+        }
+        if (object.newowner !== undefined && object.newowner !== null) {
+            message.newowner = object.newowner;
+        }
+        else {
+            message.newowner = '';
+        }
+        return message;
+    }
+};
+const baseMsgUpdateOwnerResponse = {};
+export const MsgUpdateOwnerResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgUpdateOwnerResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = { ...baseMsgUpdateOwnerResponse };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = { ...baseMsgUpdateOwnerResponse };
+        return message;
+    }
+};
 const baseMsgMintAndSendTokens = { owner: '', denom: '', amount: 0, recipient: '' };
 export const MsgMintAndSendTokens = {
     encode(message, writer = Writer.create()) {
@@ -539,6 +660,11 @@ export const MsgUpdateTokenResponse = {
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
+    }
+    UpdateOwner(request) {
+        const data = MsgUpdateOwner.encode(request).finish();
+        const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Msg', 'UpdateOwner', data);
+        return promise.then((data) => MsgUpdateOwnerResponse.decode(new Reader(data)));
     }
     MintAndSendTokens(request) {
         const data = MsgMintAndSendTokens.encode(request).finish();

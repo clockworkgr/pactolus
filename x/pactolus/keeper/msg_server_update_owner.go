@@ -8,10 +8,8 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (k msgServer) MintAndSendTokens(goCtx context.Context, msg *types.MsgMintAndSendTokens) (*types.MsgMintAndSendTokensResponse, error) {
+func (k msgServer) UpdateOwner(goCtx context.Context, msg *types.MsgUpdateOwner) (*types.MsgUpdateOwnerResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	// TODO: Handling the message
 
 	// Check if the value exists
 	valFound, isFound := k.GetToken(
@@ -32,31 +30,17 @@ func (k msgServer) MintAndSendTokens(goCtx context.Context, msg *types.MsgMintAn
 	if err != nil {
 		return nil, err
 	}
-	recipientAddress, err := sdk.AccAddressFromBech32(msg.Recipient)
-	if err != nil {
-		return nil, err
-	}
-	if valFound.Supply+msg.Amount > valFound.Maxsupply {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "max supply reached")
-	}
-	var mintCoins, feeCoins sdk.Coins
-	feeCoins = feeCoins.Add(sdk.NewCoin("upact", sdk.NewInt(20)))
+	var feeCoins sdk.Coins
+	feeCoins = feeCoins.Add(sdk.NewCoin("upact", sdk.NewInt(1000)))
 	if err := k.bankKeeper.SendCoins(ctx, ownerAddress, moduleAcct, feeCoins); err != nil {
 		return nil, err
 	}
-	mintCoins = mintCoins.Add(sdk.NewCoin(msg.Denom, sdk.NewInt(int64(msg.Amount))))
-	if err := k.bankKeeper.MintCoins(ctx, types.ModuleName, mintCoins); err != nil {
-		return nil, err
-	}
-	if err := k.bankKeeper.SendCoins(ctx, moduleAcct, recipientAddress, mintCoins); err != nil {
-		return nil, err
-	}
 	var token = types.Token{
-		Owner:           valFound.Owner,
-		Denom:           valFound.Denom,
+		Owner:           msg.Newowner,
+		Denom:           msg.Denom,
 		Description:     valFound.Description,
 		Maxsupply:       valFound.Maxsupply,
-		Supply:          valFound.Supply + msg.Amount,
+		Supply:          valFound.Supply,
 		Precision:       valFound.Precision,
 		Ticker:          valFound.Ticker,
 		Url:             valFound.Url,
@@ -67,5 +51,5 @@ func (k msgServer) MintAndSendTokens(goCtx context.Context, msg *types.MsgMintAn
 		ctx,
 		token,
 	)
-	return &types.MsgMintAndSendTokensResponse{}, nil
+	return &types.MsgUpdateOwnerResponse{}, nil
 }

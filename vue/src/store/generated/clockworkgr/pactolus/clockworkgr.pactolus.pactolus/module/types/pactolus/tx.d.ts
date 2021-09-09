@@ -1,6 +1,13 @@
 import { Reader, Writer } from 'protobufjs/minimal';
 export declare const protobufPackage = "clockworkgr.pactolus.pactolus";
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgUpdateOwner {
+    owner: string;
+    denom: string;
+    newowner: string;
+}
+export interface MsgUpdateOwnerResponse {
+}
 export interface MsgMintAndSendTokens {
     owner: string;
     denom: string;
@@ -31,6 +38,20 @@ export interface MsgUpdateToken {
 }
 export interface MsgUpdateTokenResponse {
 }
+export declare const MsgUpdateOwner: {
+    encode(message: MsgUpdateOwner, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateOwner;
+    fromJSON(object: any): MsgUpdateOwner;
+    toJSON(message: MsgUpdateOwner): unknown;
+    fromPartial(object: DeepPartial<MsgUpdateOwner>): MsgUpdateOwner;
+};
+export declare const MsgUpdateOwnerResponse: {
+    encode(_: MsgUpdateOwnerResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateOwnerResponse;
+    fromJSON(_: any): MsgUpdateOwnerResponse;
+    toJSON(_: MsgUpdateOwnerResponse): unknown;
+    fromPartial(_: DeepPartial<MsgUpdateOwnerResponse>): MsgUpdateOwnerResponse;
+};
 export declare const MsgMintAndSendTokens: {
     encode(message: MsgMintAndSendTokens, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgMintAndSendTokens;
@@ -76,6 +97,7 @@ export declare const MsgUpdateTokenResponse: {
 /** Msg defines the Msg service. */
 export interface Msg {
     /** this line is used by starport scaffolding # proto/tx/rpc */
+    UpdateOwner(request: MsgUpdateOwner): Promise<MsgUpdateOwnerResponse>;
     MintAndSendTokens(request: MsgMintAndSendTokens): Promise<MsgMintAndSendTokensResponse>;
     CreateToken(request: MsgCreateToken): Promise<MsgCreateTokenResponse>;
     /** rpc MintAndSendToken(MsgMintToken) returns (MsgMintTokenResponse); */
@@ -84,6 +106,7 @@ export interface Msg {
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
+    UpdateOwner(request: MsgUpdateOwner): Promise<MsgUpdateOwnerResponse>;
     MintAndSendTokens(request: MsgMintAndSendTokens): Promise<MsgMintAndSendTokensResponse>;
     CreateToken(request: MsgCreateToken): Promise<MsgCreateTokenResponse>;
     UpdateToken(request: MsgUpdateToken): Promise<MsgUpdateTokenResponse>;

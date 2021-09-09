@@ -13,6 +13,8 @@ export type PactolusMsgCreateTokenResponse = object;
 
 export type PactolusMsgMintAndSendTokensResponse = object;
 
+export type PactolusMsgUpdateOwnerResponse = object;
+
 export type PactolusMsgUpdateTokenResponse = object;
 
 export interface PactolusQueryAllTokenResponse {

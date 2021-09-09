@@ -6,7 +6,6 @@ import (
 	"github.com/clockworkgr/pactolus/x/pactolus/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/tendermint/tendermint/crypto"
 )
 
 func (k msgServer) CreateToken(goCtx context.Context, msg *types.MsgCreateToken) (*types.MsgCreateTokenResponse, error) {
@@ -21,7 +20,7 @@ func (k msgServer) CreateToken(goCtx context.Context, msg *types.MsgCreateToken)
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
-	moduleAcct := sdk.AccAddress(crypto.AddressHash([]byte(types.ModuleName)))
+	moduleAcct := k.accountKeeper.GetModuleAddress(types.ModuleName)
 	tickerLength := len(msg.Ticker)
 
 	var price string

@@ -5,6 +5,14 @@ import * as Long from 'long'
 export const protobufPackage = 'clockworkgr.pactolus.pactolus'
 
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgUpdateOwner {
+  owner: string
+  denom: string
+  newowner: string
+}
+
+export interface MsgUpdateOwnerResponse {}
+
 export interface MsgMintAndSendTokens {
   owner: string
   denom: string
@@ -37,6 +45,133 @@ export interface MsgUpdateToken {
 }
 
 export interface MsgUpdateTokenResponse {}
+
+const baseMsgUpdateOwner: object = { owner: '', denom: '', newowner: '' }
+
+export const MsgUpdateOwner = {
+  encode(message: MsgUpdateOwner, writer: Writer = Writer.create()): Writer {
+    if (message.owner !== '') {
+      writer.uint32(10).string(message.owner)
+    }
+    if (message.denom !== '') {
+      writer.uint32(18).string(message.denom)
+    }
+    if (message.newowner !== '') {
+      writer.uint32(26).string(message.newowner)
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateOwner {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseMsgUpdateOwner } as MsgUpdateOwner
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.owner = reader.string()
+          break
+        case 2:
+          message.denom = reader.string()
+          break
+        case 3:
+          message.newowner = reader.string()
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): MsgUpdateOwner {
+    const message = { ...baseMsgUpdateOwner } as MsgUpdateOwner
+    if (object.owner !== undefined && object.owner !== null) {
+      message.owner = String(object.owner)
+    } else {
+      message.owner = ''
+    }
+    if (object.denom !== undefined && object.denom !== null) {
+      message.denom = String(object.denom)
+    } else {
+      message.denom = ''
+    }
+    if (object.newowner !== undefined && object.newowner !== null) {
+      message.newowner = String(object.newowner)
+    } else {
+      message.newowner = ''
+    }
+    return message
+  },
+
+  toJSON(message: MsgUpdateOwner): unknown {
+    const obj: any = {}
+    message.owner !== undefined && (obj.owner = message.owner)
+    message.denom !== undefined && (obj.denom = message.denom)
+    message.newowner !== undefined && (obj.newowner = message.newowner)
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<MsgUpdateOwner>): MsgUpdateOwner {
+    const message = { ...baseMsgUpdateOwner } as MsgUpdateOwner
+    if (object.owner !== undefined && object.owner !== null) {
+      message.owner = object.owner
+    } else {
+      message.owner = ''
+    }
+    if (object.denom !== undefined && object.denom !== null) {
+      message.denom = object.denom
+    } else {
+      message.denom = ''
+    }
+    if (object.newowner !== undefined && object.newowner !== null) {
+      message.newowner = object.newowner
+    } else {
+      message.newowner = ''
+    }
+    return message
+  }
+}
+
+const baseMsgUpdateOwnerResponse: object = {}
+
+export const MsgUpdateOwnerResponse = {
+  encode(_: MsgUpdateOwnerResponse, writer: Writer = Writer.create()): Writer {
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateOwnerResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseMsgUpdateOwnerResponse } as MsgUpdateOwnerResponse
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(_: any): MsgUpdateOwnerResponse {
+    const message = { ...baseMsgUpdateOwnerResponse } as MsgUpdateOwnerResponse
+    return message
+  },
+
+  toJSON(_: MsgUpdateOwnerResponse): unknown {
+    const obj: any = {}
+    return obj
+  },
+
+  fromPartial(_: DeepPartial<MsgUpdateOwnerResponse>): MsgUpdateOwnerResponse {
+    const message = { ...baseMsgUpdateOwnerResponse } as MsgUpdateOwnerResponse
+    return message
+  }
+}
 
 const baseMsgMintAndSendTokens: object = { owner: '', denom: '', amount: 0, recipient: '' }
 
@@ -575,6 +710,7 @@ export const MsgUpdateTokenResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   /** this line is used by starport scaffolding # proto/tx/rpc */
+  UpdateOwner(request: MsgUpdateOwner): Promise<MsgUpdateOwnerResponse>
   MintAndSendTokens(request: MsgMintAndSendTokens): Promise<MsgMintAndSendTokensResponse>
   CreateToken(request: MsgCreateToken): Promise<MsgCreateTokenResponse>
   /** rpc MintAndSendToken(MsgMintToken) returns (MsgMintTokenResponse); */
@@ -586,6 +722,12 @@ export class MsgClientImpl implements Msg {
   constructor(rpc: Rpc) {
     this.rpc = rpc
   }
+  UpdateOwner(request: MsgUpdateOwner): Promise<MsgUpdateOwnerResponse> {
+    const data = MsgUpdateOwner.encode(request).finish()
+    const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Msg', 'UpdateOwner', data)
+    return promise.then((data) => MsgUpdateOwnerResponse.decode(new Reader(data)))
+  }
+
   MintAndSendTokens(request: MsgMintAndSendTokens): Promise<MsgMintAndSendTokensResponse> {
     const data = MsgMintAndSendTokens.encode(request).finish()
     const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Msg', 'MintAndSendTokens', data)
