@@ -83,6 +83,7 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 	pactolusmodule "github.com/clockworkgr/pactolus/x/pactolus"
 	pactolusmodulekeeper "github.com/clockworkgr/pactolus/x/pactolus/keeper"
@@ -342,6 +343,7 @@ func New(
 		appCodec,
 		keys[pactolusmoduletypes.StoreKey],
 		keys[pactolusmoduletypes.MemStoreKey],
+		app.BankKeeper,
 	)
 	pactolusModule := pactolusmodule.NewAppModule(appCodec, app.PactolusKeeper)
 
