@@ -20,25 +20,25 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func networkWithTokenObjects(t *testing.T, n int) (*network.Network, []types.Token) {
+func networkWithDenomObjects(t *testing.T, n int) (*network.Network, []types.Denom) {
 	t.Helper()
 	cfg := network.DefaultConfig()
 	state := types.GenesisState{}
 	require.NoError(t, cfg.Codec.UnmarshalJSON(cfg.GenesisState[types.ModuleName], &state))
 
 	for i := 0; i < n; i++ {
-		state.TokenList = append(state.TokenList, types.Token{
+		state.DenomList = append(state.DenomList, types.Denom{
 			Denom: strconv.Itoa(i),
 		})
 	}
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), state.TokenList
+	return network.New(t, cfg), state.DenomList
 }
 
-func TestShowToken(t *testing.T) {
-	net, objs := networkWithTokenObjects(t, 2)
+func TestShowDenom(t *testing.T) {
+	net, objs := networkWithDenomObjects(t, 2)
 
 	ctx := net.Validators[0].ClientCtx
 	common := []string{
@@ -50,7 +50,7 @@ func TestShowToken(t *testing.T) {
 
 		args []string
 		err  error
-		obj  types.Token
+		obj  types.Denom
 	}{
 		{
 			desc:    "found",
@@ -73,24 +73,24 @@ func TestShowToken(t *testing.T) {
 				tc.idDenom,
 			}
 			args = append(args, tc.args...)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdShowToken(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdShowDenom(), args)
 			if tc.err != nil {
 				stat, ok := status.FromError(tc.err)
 				require.True(t, ok)
 				require.ErrorIs(t, stat.Err(), tc.err)
 			} else {
 				require.NoError(t, err)
-				var resp types.QueryGetTokenResponse
+				var resp types.QueryGetDenomResponse
 				require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-				require.NotNil(t, resp.Token)
-				require.Equal(t, tc.obj, resp.Token)
+				require.NotNil(t, resp.Denom)
+				require.Equal(t, tc.obj, resp.Denom)
 			}
 		})
 	}
 }
 
-func TestListToken(t *testing.T) {
-	net, objs := networkWithTokenObjects(t, 5)
+func TestListDenom(t *testing.T) {
+	net, objs := networkWithDenomObjects(t, 5)
 
 	ctx := net.Validators[0].ClientCtx
 	request := func(next []byte, offset, limit uint64, total bool) []string {
@@ -112,12 +112,12 @@ func TestListToken(t *testing.T) {
 		step := 2
 		for i := 0; i < len(objs); i += step {
 			args := request(nil, uint64(i), uint64(step), false)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListToken(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListDenom(), args)
 			require.NoError(t, err)
-			var resp types.QueryAllTokenResponse
+			var resp types.QueryAllDenomResponse
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 			for j := i; j < len(objs) && j < i+step; j++ {
-				require.Equal(t, objs[j], resp.Token[j-i])
+				require.Equal(t, objs[j], resp.Denom[j-i])
 			}
 		}
 	})
@@ -126,24 +126,24 @@ func TestListToken(t *testing.T) {
 		var next []byte
 		for i := 0; i < len(objs); i += step {
 			args := request(next, 0, uint64(step), false)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListToken(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListDenom(), args)
 			require.NoError(t, err)
-			var resp types.QueryAllTokenResponse
+			var resp types.QueryAllDenomResponse
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 			for j := i; j < len(objs) && j < i+step; j++ {
-				require.Equal(t, objs[j], resp.Token[j-i])
+				require.Equal(t, objs[j], resp.Denom[j-i])
 			}
 			next = resp.Pagination.NextKey
 		}
 	})
 	t.Run("Total", func(t *testing.T) {
 		args := request(nil, 0, uint64(len(objs)), true)
-		out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListToken(), args)
+		out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListDenom(), args)
 		require.NoError(t, err)
-		var resp types.QueryAllTokenResponse
+		var resp types.QueryAllDenomResponse
 		require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 		require.NoError(t, err)
 		require.Equal(t, len(objs), int(resp.Pagination.Total))
-		require.Equal(t, objs, resp.Token)
+		require.Equal(t, objs, resp.Denom)
 	})
 }

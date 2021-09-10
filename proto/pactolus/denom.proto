@@ -3,15 +3,15 @@ package clockworkgr.pactolus.pactolus;
 
 option go_package = "github.com/clockworkgr/pactolus/x/pactolus/types";
 
-message Token {
+message Denom {
   string denom = 1; 
   string description = 2; 
-  uint64 maxsupply = 3; 
-  uint64 supply = 4; 
-  uint32 precision = 5; 
-  string ticker = 6; 
-  string url = 7; 
-  bool canChangeSupply = 8; 
+  string ticker = 3; 
+  uint32 precision = 4; 
+  string url = 5; 
+  uint64 maxSupply = 6; 
+  uint64 supply = 7; 
+  bool canChangeMaxSupply = 8; 
   string owner = 9;
 }
 

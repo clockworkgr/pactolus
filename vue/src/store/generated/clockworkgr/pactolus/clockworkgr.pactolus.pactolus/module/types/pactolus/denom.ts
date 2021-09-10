@@ -4,45 +4,45 @@ import { util, configure, Writer, Reader } from 'protobufjs/minimal'
 
 export const protobufPackage = 'clockworkgr.pactolus.pactolus'
 
-export interface Token {
+export interface Denom {
   denom: string
   description: string
-  maxsupply: number
-  supply: number
-  precision: number
   ticker: string
+  precision: number
   url: string
-  canChangeSupply: boolean
+  maxSupply: number
+  supply: number
+  canChangeMaxSupply: boolean
   owner: string
 }
 
-const baseToken: object = { denom: '', description: '', maxsupply: 0, supply: 0, precision: 0, ticker: '', url: '', canChangeSupply: false, owner: '' }
+const baseDenom: object = { denom: '', description: '', ticker: '', precision: 0, url: '', maxSupply: 0, supply: 0, canChangeMaxSupply: false, owner: '' }
 
-export const Token = {
-  encode(message: Token, writer: Writer = Writer.create()): Writer {
+export const Denom = {
+  encode(message: Denom, writer: Writer = Writer.create()): Writer {
     if (message.denom !== '') {
       writer.uint32(10).string(message.denom)
     }
     if (message.description !== '') {
       writer.uint32(18).string(message.description)
     }
-    if (message.maxsupply !== 0) {
-      writer.uint32(24).uint64(message.maxsupply)
-    }
-    if (message.supply !== 0) {
-      writer.uint32(32).uint64(message.supply)
+    if (message.ticker !== '') {
+      writer.uint32(26).string(message.ticker)
     }
     if (message.precision !== 0) {
-      writer.uint32(40).uint32(message.precision)
-    }
-    if (message.ticker !== '') {
-      writer.uint32(50).string(message.ticker)
+      writer.uint32(32).uint32(message.precision)
     }
     if (message.url !== '') {
-      writer.uint32(58).string(message.url)
+      writer.uint32(42).string(message.url)
     }
-    if (message.canChangeSupply === true) {
-      writer.uint32(64).bool(message.canChangeSupply)
+    if (message.maxSupply !== 0) {
+      writer.uint32(48).uint64(message.maxSupply)
+    }
+    if (message.supply !== 0) {
+      writer.uint32(56).uint64(message.supply)
+    }
+    if (message.canChangeMaxSupply === true) {
+      writer.uint32(64).bool(message.canChangeMaxSupply)
     }
     if (message.owner !== '') {
       writer.uint32(74).string(message.owner)
@@ -50,10 +50,10 @@ export const Token = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Token {
+  decode(input: Reader | Uint8Array, length?: number): Denom {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseToken } as Token
+    const message = { ...baseDenom } as Denom
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
@@ -64,22 +64,22 @@ export const Token = {
           message.description = reader.string()
           break
         case 3:
-          message.maxsupply = longToNumber(reader.uint64() as Long)
-          break
-        case 4:
-          message.supply = longToNumber(reader.uint64() as Long)
-          break
-        case 5:
-          message.precision = reader.uint32()
-          break
-        case 6:
           message.ticker = reader.string()
           break
-        case 7:
+        case 4:
+          message.precision = reader.uint32()
+          break
+        case 5:
           message.url = reader.string()
           break
+        case 6:
+          message.maxSupply = longToNumber(reader.uint64() as Long)
+          break
+        case 7:
+          message.supply = longToNumber(reader.uint64() as Long)
+          break
         case 8:
-          message.canChangeSupply = reader.bool()
+          message.canChangeMaxSupply = reader.bool()
           break
         case 9:
           message.owner = reader.string()
@@ -92,8 +92,8 @@ export const Token = {
     return message
   },
 
-  fromJSON(object: any): Token {
-    const message = { ...baseToken } as Token
+  fromJSON(object: any): Denom {
+    const message = { ...baseDenom } as Denom
     if (object.denom !== undefined && object.denom !== null) {
       message.denom = String(object.denom)
     } else {
@@ -104,35 +104,35 @@ export const Token = {
     } else {
       message.description = ''
     }
-    if (object.maxsupply !== undefined && object.maxsupply !== null) {
-      message.maxsupply = Number(object.maxsupply)
+    if (object.ticker !== undefined && object.ticker !== null) {
+      message.ticker = String(object.ticker)
     } else {
-      message.maxsupply = 0
-    }
-    if (object.supply !== undefined && object.supply !== null) {
-      message.supply = Number(object.supply)
-    } else {
-      message.supply = 0
+      message.ticker = ''
     }
     if (object.precision !== undefined && object.precision !== null) {
       message.precision = Number(object.precision)
     } else {
       message.precision = 0
     }
-    if (object.ticker !== undefined && object.ticker !== null) {
-      message.ticker = String(object.ticker)
-    } else {
-      message.ticker = ''
-    }
     if (object.url !== undefined && object.url !== null) {
       message.url = String(object.url)
     } else {
       message.url = ''
     }
-    if (object.canChangeSupply !== undefined && object.canChangeSupply !== null) {
-      message.canChangeSupply = Boolean(object.canChangeSupply)
+    if (object.maxSupply !== undefined && object.maxSupply !== null) {
+      message.maxSupply = Number(object.maxSupply)
     } else {
-      message.canChangeSupply = false
+      message.maxSupply = 0
+    }
+    if (object.supply !== undefined && object.supply !== null) {
+      message.supply = Number(object.supply)
+    } else {
+      message.supply = 0
+    }
+    if (object.canChangeMaxSupply !== undefined && object.canChangeMaxSupply !== null) {
+      message.canChangeMaxSupply = Boolean(object.canChangeMaxSupply)
+    } else {
+      message.canChangeMaxSupply = false
     }
     if (object.owner !== undefined && object.owner !== null) {
       message.owner = String(object.owner)
@@ -142,22 +142,22 @@ export const Token = {
     return message
   },
 
-  toJSON(message: Token): unknown {
+  toJSON(message: Denom): unknown {
     const obj: any = {}
     message.denom !== undefined && (obj.denom = message.denom)
     message.description !== undefined && (obj.description = message.description)
-    message.maxsupply !== undefined && (obj.maxsupply = message.maxsupply)
-    message.supply !== undefined && (obj.supply = message.supply)
-    message.precision !== undefined && (obj.precision = message.precision)
     message.ticker !== undefined && (obj.ticker = message.ticker)
+    message.precision !== undefined && (obj.precision = message.precision)
     message.url !== undefined && (obj.url = message.url)
-    message.canChangeSupply !== undefined && (obj.canChangeSupply = message.canChangeSupply)
+    message.maxSupply !== undefined && (obj.maxSupply = message.maxSupply)
+    message.supply !== undefined && (obj.supply = message.supply)
+    message.canChangeMaxSupply !== undefined && (obj.canChangeMaxSupply = message.canChangeMaxSupply)
     message.owner !== undefined && (obj.owner = message.owner)
     return obj
   },
 
-  fromPartial(object: DeepPartial<Token>): Token {
-    const message = { ...baseToken } as Token
+  fromPartial(object: DeepPartial<Denom>): Denom {
+    const message = { ...baseDenom } as Denom
     if (object.denom !== undefined && object.denom !== null) {
       message.denom = object.denom
     } else {
@@ -168,35 +168,35 @@ export const Token = {
     } else {
       message.description = ''
     }
-    if (object.maxsupply !== undefined && object.maxsupply !== null) {
-      message.maxsupply = object.maxsupply
+    if (object.ticker !== undefined && object.ticker !== null) {
+      message.ticker = object.ticker
     } else {
-      message.maxsupply = 0
-    }
-    if (object.supply !== undefined && object.supply !== null) {
-      message.supply = object.supply
-    } else {
-      message.supply = 0
+      message.ticker = ''
     }
     if (object.precision !== undefined && object.precision !== null) {
       message.precision = object.precision
     } else {
       message.precision = 0
     }
-    if (object.ticker !== undefined && object.ticker !== null) {
-      message.ticker = object.ticker
-    } else {
-      message.ticker = ''
-    }
     if (object.url !== undefined && object.url !== null) {
       message.url = object.url
     } else {
       message.url = ''
     }
-    if (object.canChangeSupply !== undefined && object.canChangeSupply !== null) {
-      message.canChangeSupply = object.canChangeSupply
+    if (object.maxSupply !== undefined && object.maxSupply !== null) {
+      message.maxSupply = object.maxSupply
     } else {
-      message.canChangeSupply = false
+      message.maxSupply = 0
+    }
+    if (object.supply !== undefined && object.supply !== null) {
+      message.supply = object.supply
+    } else {
+      message.supply = 0
+    }
+    if (object.canChangeMaxSupply !== undefined && object.canChangeMaxSupply !== null) {
+      message.canChangeMaxSupply = object.canChangeMaxSupply
+    } else {
+      message.canChangeMaxSupply = false
     }
     if (object.owner !== undefined && object.owner !== null) {
       message.owner = object.owner

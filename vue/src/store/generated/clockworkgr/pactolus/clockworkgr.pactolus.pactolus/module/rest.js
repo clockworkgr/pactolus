@@ -130,7 +130,7 @@ export class HttpClient {
     }
 }
 /**
- * @title pactolus/genesis.proto
+ * @title pactolus/denom.proto
  * @version version not set
  */
 export class Api extends HttpClient {
@@ -140,12 +140,12 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
-         * @name QueryTokenAll
-         * @summary Queries a list of token items.
-         * @request GET:/clockworkgr/pactolus/pactolus/token
+         * @name QueryDenomAll
+         * @summary Queries a list of denom items.
+         * @request GET:/clockworkgr/pactolus/pactolus/denom
          */
-        this.queryTokenAll = (query, params = {}) => this.request({
-            path: `/clockworkgr/pactolus/pactolus/token`,
+        this.queryDenomAll = (query, params = {}) => this.request({
+            path: `/clockworkgr/pactolus/pactolus/denom`,
             method: "GET",
             query: query,
             format: "json",
@@ -155,12 +155,12 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
-         * @name QueryToken
-         * @summary Queries a token by index.
-         * @request GET:/clockworkgr/pactolus/pactolus/token/{denom}
+         * @name QueryDenom
+         * @summary Queries a denom by index.
+         * @request GET:/clockworkgr/pactolus/pactolus/denom/{denom}
          */
-        this.queryToken = (denom, params = {}) => this.request({
-            path: `/clockworkgr/pactolus/pactolus/token/${denom}`,
+        this.queryDenom = (denom, params = {}) => this.request({
+            path: `/clockworkgr/pactolus/pactolus/denom/${denom}`,
             method: "GET",
             format: "json",
             ...params,

@@ -4,17 +4,17 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgUpdateToken } from "./types/pactolus/tx";
 import { MsgMintAndSendTokens } from "./types/pactolus/tx";
+import { MsgCreateDenom } from "./types/pactolus/tx";
+import { MsgUpdateDenom } from "./types/pactolus/tx";
 import { MsgUpdateOwner } from "./types/pactolus/tx";
-import { MsgCreateToken } from "./types/pactolus/tx";
 
 
 const types = [
-  ["/clockworkgr.pactolus.pactolus.MsgUpdateToken", MsgUpdateToken],
   ["/clockworkgr.pactolus.pactolus.MsgMintAndSendTokens", MsgMintAndSendTokens],
+  ["/clockworkgr.pactolus.pactolus.MsgCreateDenom", MsgCreateDenom],
+  ["/clockworkgr.pactolus.pactolus.MsgUpdateDenom", MsgUpdateDenom],
   ["/clockworkgr.pactolus.pactolus.MsgUpdateOwner", MsgUpdateOwner],
-  ["/clockworkgr.pactolus.pactolus.MsgCreateToken", MsgCreateToken],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -43,10 +43,10 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgUpdateToken: (data: MsgUpdateToken): EncodeObject => ({ typeUrl: "/clockworkgr.pactolus.pactolus.MsgUpdateToken", value: data }),
     msgMintAndSendTokens: (data: MsgMintAndSendTokens): EncodeObject => ({ typeUrl: "/clockworkgr.pactolus.pactolus.MsgMintAndSendTokens", value: data }),
+    msgCreateDenom: (data: MsgCreateDenom): EncodeObject => ({ typeUrl: "/clockworkgr.pactolus.pactolus.MsgCreateDenom", value: data }),
+    msgUpdateDenom: (data: MsgUpdateDenom): EncodeObject => ({ typeUrl: "/clockworkgr.pactolus.pactolus.MsgUpdateDenom", value: data }),
     msgUpdateOwner: (data: MsgUpdateOwner): EncodeObject => ({ typeUrl: "/clockworkgr.pactolus.pactolus.MsgUpdateOwner", value: data }),
-    msgCreateToken: (data: MsgCreateToken): EncodeObject => ({ typeUrl: "/clockworkgr.pactolus.pactolus.MsgCreateToken", value: data }),
     
   };
 };

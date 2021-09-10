@@ -14,43 +14,43 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func createNToken(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.Token {
-	items := make([]types.Token, n)
+func createNDenom(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.Denom {
+	items := make([]types.Denom, n)
 	for i := range items {
 		items[i].Denom = strconv.Itoa(i)
 
-		keeper.SetToken(ctx, items[i])
+		keeper.SetDenom(ctx, items[i])
 	}
 	return items
 }
 
-func TestTokenGet(t *testing.T) {
+func TestDenomGet(t *testing.T) {
 	keeper, ctx := keepertest.PactolusKeeper(t)
-	items := createNToken(keeper, ctx, 10)
+	items := createNDenom(keeper, ctx, 10)
 	for _, item := range items {
-		rst, found := keeper.GetToken(ctx,
+		rst, found := keeper.GetDenom(ctx,
 			item.Denom,
 		)
 		require.True(t, found)
 		require.Equal(t, item, rst)
 	}
 }
-func TestTokenRemove(t *testing.T) {
+func TestDenomRemove(t *testing.T) {
 	keeper, ctx := keepertest.PactolusKeeper(t)
-	items := createNToken(keeper, ctx, 10)
+	items := createNDenom(keeper, ctx, 10)
 	for _, item := range items {
-		keeper.RemoveToken(ctx,
+		keeper.RemoveDenom(ctx,
 			item.Denom,
 		)
-		_, found := keeper.GetToken(ctx,
+		_, found := keeper.GetDenom(ctx,
 			item.Denom,
 		)
 		require.False(t, found)
 	}
 }
 
-func TestTokenGetAll(t *testing.T) {
+func TestDenomGetAll(t *testing.T) {
 	keeper, ctx := keepertest.PactolusKeeper(t)
-	items := createNToken(keeper, ctx, 10)
-	require.Equal(t, items, keeper.GetAllToken(ctx))
+	items := createNDenom(keeper, ctx, 10)
+	require.Equal(t, items, keeper.GetAllDenom(ctx))
 }

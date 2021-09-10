@@ -4,7 +4,7 @@ export declare const protobufPackage = "clockworkgr.pactolus.pactolus";
 export interface MsgUpdateOwner {
     owner: string;
     denom: string;
-    newowner: string;
+    newOwner: string;
 }
 export interface MsgUpdateOwnerResponse {
 }
@@ -16,27 +16,27 @@ export interface MsgMintAndSendTokens {
 }
 export interface MsgMintAndSendTokensResponse {
 }
-export interface MsgCreateToken {
+export interface MsgCreateDenom {
     owner: string;
     denom: string;
     description: string;
-    maxsupply: number;
-    supply: number;
-    precision: number;
     ticker: string;
+    precision: number;
     url: string;
-    canChangeSupply: boolean;
+    maxSupply: number;
+    canChangeMaxSupply: boolean;
 }
-export interface MsgCreateTokenResponse {
+export interface MsgCreateDenomResponse {
 }
-export interface MsgUpdateToken {
+export interface MsgUpdateDenom {
     owner: string;
     denom: string;
     description: string;
-    maxsupply: number;
     url: string;
+    maxSupply: number;
+    canChangeMaxSupply: boolean;
 }
-export interface MsgUpdateTokenResponse {
+export interface MsgUpdateDenomResponse {
 }
 export declare const MsgUpdateOwner: {
     encode(message: MsgUpdateOwner, writer?: Writer): Writer;
@@ -66,50 +66,49 @@ export declare const MsgMintAndSendTokensResponse: {
     toJSON(_: MsgMintAndSendTokensResponse): unknown;
     fromPartial(_: DeepPartial<MsgMintAndSendTokensResponse>): MsgMintAndSendTokensResponse;
 };
-export declare const MsgCreateToken: {
-    encode(message: MsgCreateToken, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): MsgCreateToken;
-    fromJSON(object: any): MsgCreateToken;
-    toJSON(message: MsgCreateToken): unknown;
-    fromPartial(object: DeepPartial<MsgCreateToken>): MsgCreateToken;
+export declare const MsgCreateDenom: {
+    encode(message: MsgCreateDenom, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateDenom;
+    fromJSON(object: any): MsgCreateDenom;
+    toJSON(message: MsgCreateDenom): unknown;
+    fromPartial(object: DeepPartial<MsgCreateDenom>): MsgCreateDenom;
 };
-export declare const MsgCreateTokenResponse: {
-    encode(_: MsgCreateTokenResponse, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): MsgCreateTokenResponse;
-    fromJSON(_: any): MsgCreateTokenResponse;
-    toJSON(_: MsgCreateTokenResponse): unknown;
-    fromPartial(_: DeepPartial<MsgCreateTokenResponse>): MsgCreateTokenResponse;
+export declare const MsgCreateDenomResponse: {
+    encode(_: MsgCreateDenomResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateDenomResponse;
+    fromJSON(_: any): MsgCreateDenomResponse;
+    toJSON(_: MsgCreateDenomResponse): unknown;
+    fromPartial(_: DeepPartial<MsgCreateDenomResponse>): MsgCreateDenomResponse;
 };
-export declare const MsgUpdateToken: {
-    encode(message: MsgUpdateToken, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): MsgUpdateToken;
-    fromJSON(object: any): MsgUpdateToken;
-    toJSON(message: MsgUpdateToken): unknown;
-    fromPartial(object: DeepPartial<MsgUpdateToken>): MsgUpdateToken;
+export declare const MsgUpdateDenom: {
+    encode(message: MsgUpdateDenom, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateDenom;
+    fromJSON(object: any): MsgUpdateDenom;
+    toJSON(message: MsgUpdateDenom): unknown;
+    fromPartial(object: DeepPartial<MsgUpdateDenom>): MsgUpdateDenom;
 };
-export declare const MsgUpdateTokenResponse: {
-    encode(_: MsgUpdateTokenResponse, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): MsgUpdateTokenResponse;
-    fromJSON(_: any): MsgUpdateTokenResponse;
-    toJSON(_: MsgUpdateTokenResponse): unknown;
-    fromPartial(_: DeepPartial<MsgUpdateTokenResponse>): MsgUpdateTokenResponse;
+export declare const MsgUpdateDenomResponse: {
+    encode(_: MsgUpdateDenomResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateDenomResponse;
+    fromJSON(_: any): MsgUpdateDenomResponse;
+    toJSON(_: MsgUpdateDenomResponse): unknown;
+    fromPartial(_: DeepPartial<MsgUpdateDenomResponse>): MsgUpdateDenomResponse;
 };
 /** Msg defines the Msg service. */
 export interface Msg {
     /** this line is used by starport scaffolding # proto/tx/rpc */
     UpdateOwner(request: MsgUpdateOwner): Promise<MsgUpdateOwnerResponse>;
     MintAndSendTokens(request: MsgMintAndSendTokens): Promise<MsgMintAndSendTokensResponse>;
-    CreateToken(request: MsgCreateToken): Promise<MsgCreateTokenResponse>;
-    /** rpc MintAndSendToken(MsgMintToken) returns (MsgMintTokenResponse); */
-    UpdateToken(request: MsgUpdateToken): Promise<MsgUpdateTokenResponse>;
+    CreateDenom(request: MsgCreateDenom): Promise<MsgCreateDenomResponse>;
+    UpdateDenom(request: MsgUpdateDenom): Promise<MsgUpdateDenomResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
     UpdateOwner(request: MsgUpdateOwner): Promise<MsgUpdateOwnerResponse>;
     MintAndSendTokens(request: MsgMintAndSendTokens): Promise<MsgMintAndSendTokensResponse>;
-    CreateToken(request: MsgCreateToken): Promise<MsgCreateTokenResponse>;
-    UpdateToken(request: MsgUpdateToken): Promise<MsgUpdateTokenResponse>;
+    CreateDenom(request: MsgCreateDenom): Promise<MsgCreateDenomResponse>;
+    UpdateDenom(request: MsgUpdateDenom): Promise<MsgUpdateDenomResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

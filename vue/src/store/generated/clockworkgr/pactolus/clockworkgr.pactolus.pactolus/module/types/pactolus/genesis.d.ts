@@ -1,10 +1,10 @@
-import { Token } from '../pactolus/token';
+import { Denom } from '../pactolus/denom';
 import { Writer, Reader } from 'protobufjs/minimal';
 export declare const protobufPackage = "clockworkgr.pactolus.pactolus";
 /** GenesisState defines the pactolus module's genesis state. */
 export interface GenesisState {
     /** this line is used by starport scaffolding # genesis/proto/state */
-    tokenList: Token[];
+    denomList: Denom[];
 }
 export declare const GenesisState: {
     encode(message: GenesisState, writer?: Writer): Writer;

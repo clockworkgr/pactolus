@@ -1,22 +1,22 @@
 import { Writer, Reader } from 'protobufjs/minimal';
 export declare const protobufPackage = "clockworkgr.pactolus.pactolus";
-export interface Token {
+export interface Denom {
     denom: string;
     description: string;
-    maxsupply: number;
-    supply: number;
-    precision: number;
     ticker: string;
+    precision: number;
     url: string;
-    canChangeSupply: boolean;
+    maxSupply: number;
+    supply: number;
+    canChangeMaxSupply: boolean;
     owner: string;
 }
-export declare const Token: {
-    encode(message: Token, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): Token;
-    fromJSON(object: any): Token;
-    toJSON(message: Token): unknown;
-    fromPartial(object: DeepPartial<Token>): Token;
+export declare const Denom: {
+    encode(message: Denom, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): Denom;
+    fromJSON(object: any): Denom;
+    toJSON(message: Denom): unknown;
+    fromPartial(object: DeepPartial<Denom>): Denom;
 };
 declare type Builtin = Date | Function | Uint8Array | string | number | undefined;
 export declare type DeepPartial<T> = T extends Builtin ? T : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>> : T extends {} ? {

@@ -5,12 +5,12 @@ import "encoding/binary"
 var _ binary.ByteOrder
 
 const (
-	// TokenKeyPrefix is the prefix to retrieve all Token
-	TokenKeyPrefix = "Token/value/"
+	// DenomKeyPrefix is the prefix to retrieve all Denom
+	DenomKeyPrefix = "Denom/value/"
 )
 
-// TokenKey returns the store key to retrieve a Token from the index fields
-func TokenKey(
+// DenomKey returns the store key to retrieve a Denom from the index fields
+func DenomKey(
 	denom string,
 ) []byte {
 	var key []byte

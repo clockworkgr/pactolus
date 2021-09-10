@@ -2,7 +2,7 @@ syntax = "proto3";
 package clockworkgr.pactolus.pactolus;
 
 // this line is used by starport scaffolding # proto/tx/import
-import "pactolus/token.proto";
+import "pactolus/denom.proto";
 
 option go_package = "github.com/clockworkgr/pactolus/x/pactolus/types";
 
@@ -11,17 +11,16 @@ service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
   rpc UpdateOwner(MsgUpdateOwner) returns (MsgUpdateOwnerResponse);
   rpc MintAndSendTokens(MsgMintAndSendTokens) returns (MsgMintAndSendTokensResponse);
-  rpc CreateToken(MsgCreateToken) returns (MsgCreateTokenResponse);
-  rpc UpdateToken(MsgUpdateToken) returns (MsgUpdateTokenResponse);
-//  rpc MintAndSendToken(MsgMintToken) returns (MsgMintTokenResponse);
-
+  rpc CreateDenom(MsgCreateDenom) returns (MsgCreateDenomResponse);
+  rpc UpdateDenom(MsgUpdateDenom) returns (MsgUpdateDenomResponse);
+  
 }
 
 // this line is used by starport scaffolding # proto/tx/message
 message MsgUpdateOwner {
   string owner = 1;
   string denom = 2;
-  string newowner = 3;
+  string newOwner = 3;
 }
 
 message MsgUpdateOwnerResponse {
@@ -37,36 +36,28 @@ message MsgMintAndSendTokens {
 message MsgMintAndSendTokensResponse {
 }
 
-message MsgCreateToken {
+message MsgCreateDenom {
   string owner = 1;
   string denom = 2;
 
   string description = 3;
-  uint64 maxsupply = 4;
-  uint64 supply = 5;
-  uint32 precision = 6;
-  string ticker = 7;
-  string url = 8;
-  bool canChangeSupply = 9;
+  string ticker = 4;
+  uint32 precision = 5;
+  string url = 6;
+  uint64 maxSupply = 7;
+  bool canChangeMaxSupply = 8;
 }
-message MsgCreateTokenResponse {}
+message MsgCreateDenomResponse {}
 
-message MsgUpdateToken {
+message MsgUpdateDenom {
   string owner = 1;
   string denom = 2;
 
-  string description = 3;
-  uint64 maxsupply = 4;
-  string url = 5;
+  string description = 3;  
+  
+  string url = 4;
+  uint64 maxSupply = 5;
+  
+  bool canChangeMaxSupply = 6;
 }
-message MsgUpdateTokenResponse {}
-/*
-message MsgMintToken {
-  string owner = 1;
-  string denom = 2;
-
-  uint64 amount = 3;
-  string recipient = 4;
-}
-message MsgMintTokenResponse {}
-*/
+message MsgUpdateDenomResponse {}

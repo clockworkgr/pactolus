@@ -1,9 +1,23 @@
-export declare type PactolusMsgCreateTokenResponse = object;
+export interface PactolusDenom {
+    denom?: string;
+    description?: string;
+    ticker?: string;
+    /** @format int64 */
+    precision?: number;
+    url?: string;
+    /** @format uint64 */
+    maxSupply?: string;
+    /** @format uint64 */
+    supply?: string;
+    canChangeMaxSupply?: boolean;
+    owner?: string;
+}
+export declare type PactolusMsgCreateDenomResponse = object;
 export declare type PactolusMsgMintAndSendTokensResponse = object;
+export declare type PactolusMsgUpdateDenomResponse = object;
 export declare type PactolusMsgUpdateOwnerResponse = object;
-export declare type PactolusMsgUpdateTokenResponse = object;
-export interface PactolusQueryAllTokenResponse {
-    token?: PactolusToken[];
+export interface PactolusQueryAllDenomResponse {
+    denom?: PactolusDenom[];
     /**
      * PageResponse is to be embedded in gRPC response messages where the
      * corresponding request message has used PageRequest.
@@ -15,22 +29,8 @@ export interface PactolusQueryAllTokenResponse {
      */
     pagination?: V1Beta1PageResponse;
 }
-export interface PactolusQueryGetTokenResponse {
-    token?: PactolusToken;
-}
-export interface PactolusToken {
-    denom?: string;
-    description?: string;
-    /** @format uint64 */
-    maxsupply?: string;
-    /** @format uint64 */
-    supply?: string;
-    /** @format int64 */
-    precision?: number;
-    ticker?: string;
-    url?: string;
-    canChangeSupply?: boolean;
-    owner?: string;
+export interface PactolusQueryGetDenomResponse {
+    denom?: PactolusDenom;
 }
 export interface ProtobufAny {
     "@type"?: string;
@@ -145,7 +145,7 @@ export declare class HttpClient<SecurityDataType = unknown> {
     request: <T = any, E = any>({ body, secure, path, type, query, format, baseUrl, cancelToken, ...params }: FullRequestParams) => Promise<HttpResponse<T, E>>;
 }
 /**
- * @title pactolus/genesis.proto
+ * @title pactolus/denom.proto
  * @version version not set
  */
 export declare class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
@@ -153,24 +153,24 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * No description
      *
      * @tags Query
-     * @name QueryTokenAll
-     * @summary Queries a list of token items.
-     * @request GET:/clockworkgr/pactolus/pactolus/token
+     * @name QueryDenomAll
+     * @summary Queries a list of denom items.
+     * @request GET:/clockworkgr/pactolus/pactolus/denom
      */
-    queryTokenAll: (query?: {
+    queryDenomAll: (query?: {
         "pagination.key"?: string;
         "pagination.offset"?: string;
         "pagination.limit"?: string;
         "pagination.countTotal"?: boolean;
-    }, params?: RequestParams) => Promise<HttpResponse<PactolusQueryAllTokenResponse, RpcStatus>>;
+    }, params?: RequestParams) => Promise<HttpResponse<PactolusQueryAllDenomResponse, RpcStatus>>;
     /**
      * No description
      *
      * @tags Query
-     * @name QueryToken
-     * @summary Queries a token by index.
-     * @request GET:/clockworkgr/pactolus/pactolus/token/{denom}
+     * @name QueryDenom
+     * @summary Queries a denom by index.
+     * @request GET:/clockworkgr/pactolus/pactolus/denom/{denom}
      */
-    queryToken: (denom: string, params?: RequestParams) => Promise<HttpResponse<PactolusQueryGetTokenResponse, RpcStatus>>;
+    queryDenom: (denom: string, params?: RequestParams) => Promise<HttpResponse<PactolusQueryGetDenomResponse, RpcStatus>>;
 }
 export {};

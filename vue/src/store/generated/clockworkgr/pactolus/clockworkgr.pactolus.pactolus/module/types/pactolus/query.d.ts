@@ -1,61 +1,61 @@
 import { Reader, Writer } from 'protobufjs/minimal';
-import { Token } from '../pactolus/token';
+import { Denom } from '../pactolus/denom';
 import { PageRequest, PageResponse } from '../cosmos/base/query/v1beta1/pagination';
 export declare const protobufPackage = "clockworkgr.pactolus.pactolus";
 /** this line is used by starport scaffolding # 3 */
-export interface QueryGetTokenRequest {
+export interface QueryGetDenomRequest {
     denom: string;
 }
-export interface QueryGetTokenResponse {
-    token: Token | undefined;
+export interface QueryGetDenomResponse {
+    denom: Denom | undefined;
 }
-export interface QueryAllTokenRequest {
+export interface QueryAllDenomRequest {
     pagination: PageRequest | undefined;
 }
-export interface QueryAllTokenResponse {
-    token: Token[];
+export interface QueryAllDenomResponse {
+    denom: Denom[];
     pagination: PageResponse | undefined;
 }
-export declare const QueryGetTokenRequest: {
-    encode(message: QueryGetTokenRequest, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): QueryGetTokenRequest;
-    fromJSON(object: any): QueryGetTokenRequest;
-    toJSON(message: QueryGetTokenRequest): unknown;
-    fromPartial(object: DeepPartial<QueryGetTokenRequest>): QueryGetTokenRequest;
+export declare const QueryGetDenomRequest: {
+    encode(message: QueryGetDenomRequest, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryGetDenomRequest;
+    fromJSON(object: any): QueryGetDenomRequest;
+    toJSON(message: QueryGetDenomRequest): unknown;
+    fromPartial(object: DeepPartial<QueryGetDenomRequest>): QueryGetDenomRequest;
 };
-export declare const QueryGetTokenResponse: {
-    encode(message: QueryGetTokenResponse, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): QueryGetTokenResponse;
-    fromJSON(object: any): QueryGetTokenResponse;
-    toJSON(message: QueryGetTokenResponse): unknown;
-    fromPartial(object: DeepPartial<QueryGetTokenResponse>): QueryGetTokenResponse;
+export declare const QueryGetDenomResponse: {
+    encode(message: QueryGetDenomResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryGetDenomResponse;
+    fromJSON(object: any): QueryGetDenomResponse;
+    toJSON(message: QueryGetDenomResponse): unknown;
+    fromPartial(object: DeepPartial<QueryGetDenomResponse>): QueryGetDenomResponse;
 };
-export declare const QueryAllTokenRequest: {
-    encode(message: QueryAllTokenRequest, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): QueryAllTokenRequest;
-    fromJSON(object: any): QueryAllTokenRequest;
-    toJSON(message: QueryAllTokenRequest): unknown;
-    fromPartial(object: DeepPartial<QueryAllTokenRequest>): QueryAllTokenRequest;
+export declare const QueryAllDenomRequest: {
+    encode(message: QueryAllDenomRequest, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryAllDenomRequest;
+    fromJSON(object: any): QueryAllDenomRequest;
+    toJSON(message: QueryAllDenomRequest): unknown;
+    fromPartial(object: DeepPartial<QueryAllDenomRequest>): QueryAllDenomRequest;
 };
-export declare const QueryAllTokenResponse: {
-    encode(message: QueryAllTokenResponse, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): QueryAllTokenResponse;
-    fromJSON(object: any): QueryAllTokenResponse;
-    toJSON(message: QueryAllTokenResponse): unknown;
-    fromPartial(object: DeepPartial<QueryAllTokenResponse>): QueryAllTokenResponse;
+export declare const QueryAllDenomResponse: {
+    encode(message: QueryAllDenomResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryAllDenomResponse;
+    fromJSON(object: any): QueryAllDenomResponse;
+    toJSON(message: QueryAllDenomResponse): unknown;
+    fromPartial(object: DeepPartial<QueryAllDenomResponse>): QueryAllDenomResponse;
 };
 /** Query defines the gRPC querier service. */
 export interface Query {
-    /** Queries a token by index. */
-    Token(request: QueryGetTokenRequest): Promise<QueryGetTokenResponse>;
-    /** Queries a list of token items. */
-    TokenAll(request: QueryAllTokenRequest): Promise<QueryAllTokenResponse>;
+    /** Queries a denom by index. */
+    Denom(request: QueryGetDenomRequest): Promise<QueryGetDenomResponse>;
+    /** Queries a list of denom items. */
+    DenomAll(request: QueryAllDenomRequest): Promise<QueryAllDenomResponse>;
 }
 export declare class QueryClientImpl implements Query {
     private readonly rpc;
     constructor(rpc: Rpc);
-    Token(request: QueryGetTokenRequest): Promise<QueryGetTokenResponse>;
-    TokenAll(request: QueryAllTokenRequest): Promise<QueryAllTokenResponse>;
+    Denom(request: QueryGetDenomRequest): Promise<QueryGetDenomResponse>;
+    DenomAll(request: QueryAllDenomRequest): Promise<QueryAllDenomResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

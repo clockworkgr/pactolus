@@ -20,18 +20,21 @@ func CmdMintAndSendTokens() *cobra.Command {
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			argDenom := args[0]
-			argAmount := args[1]
+			argAmount, err := strconv.Atoi(args[1])
+			if err != nil {
+				return err
+			}
 			argRecipient := args[2]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
-			amount, err := strconv.Atoi(argAmount)
+
 			msg := types.NewMsgMintAndSendTokens(
 				clientCtx.GetFromAddress().String(),
 				argDenom,
-				uint64(amount),
+				uint64(argAmount),
 				argRecipient,
 			)
 			if err := msg.ValidateBasic(); err != nil {

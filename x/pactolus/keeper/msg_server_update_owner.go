@@ -12,7 +12,7 @@ func (k msgServer) UpdateOwner(goCtx context.Context, msg *types.MsgUpdateOwner)
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Check if the value exists
-	valFound, isFound := k.GetToken(
+	valFound, isFound := k.GetDenom(
 		ctx,
 		msg.Denom,
 	)
@@ -35,21 +35,22 @@ func (k msgServer) UpdateOwner(goCtx context.Context, msg *types.MsgUpdateOwner)
 	if err := k.bankKeeper.SendCoins(ctx, ownerAddress, moduleAcct, feeCoins); err != nil {
 		return nil, err
 	}
-	var token = types.Token{
-		Owner:           msg.Newowner,
-		Denom:           msg.Denom,
-		Description:     valFound.Description,
-		Maxsupply:       valFound.Maxsupply,
-		Supply:          valFound.Supply,
-		Precision:       valFound.Precision,
-		Ticker:          valFound.Ticker,
-		Url:             valFound.Url,
-		CanChangeSupply: valFound.CanChangeSupply,
+	var denom = types.Denom{
+		Owner:              msg.NewOwner,
+		Denom:              msg.Denom,
+		Description:        valFound.Description,
+		MaxSupply:          valFound.MaxSupply,
+		Supply:             valFound.Supply,
+		Precision:          valFound.Precision,
+		Ticker:             valFound.Ticker,
+		Url:                valFound.Url,
+		CanChangeMaxSupply: valFound.CanChangeMaxSupply,
 	}
 
-	k.SetToken(
+	k.SetDenom(
 		ctx,
-		token,
+		denom,
 	)
+
 	return &types.MsgUpdateOwnerResponse{}, nil
 }

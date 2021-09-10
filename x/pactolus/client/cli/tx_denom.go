@@ -3,17 +3,18 @@ package cli
 import (
 	"strconv"
 
+	"github.com/spf13/cobra"
+
 	"github.com/clockworkgr/pactolus/x/pactolus/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	"github.com/spf13/cobra"
 )
 
-func CmdCreateToken() *cobra.Command {
+func CmdCreateDenom() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-token [denom] [description] [maxsupply] [precision] [ticker] [url] [can-change-supply]",
-		Short: "Create a new token",
+		Use:   "create-denom [denom] [description] [ticker] [precision] [url] [max-supply] [can-change-max-supply]",
+		Short: "Create a new Denom",
 		Args:  cobra.ExactArgs(7),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// Get indexes
@@ -21,33 +22,38 @@ func CmdCreateToken() *cobra.Command {
 
 			// Get value arguments
 			argsDescription := args[1]
-			argsMaxsupply := args[2]
-			argsPrecision := args[3]
-			argsTicker := args[4]
-			argsUrl := args[5]
-			argsCanChangeSupply := args[6]
+			argsTicker := args[2]
+			argsPrecision, err := strconv.Atoi(args[3])
+
+			if err != nil {
+				return err
+			}
+			argsUrl := args[4]
+			argsMaxSupply, err := strconv.Atoi(args[5])
+
+			if err != nil {
+				return err
+			}
+			argsCanChangeMaxSupply, err := strconv.ParseBool(args[6])
+
+			if err != nil {
+				return err
+			}
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
-			max, err := strconv.Atoi(argsMaxsupply)
-			precision, err := strconv.Atoi(argsPrecision)
-			var canChange bool
-			if argsCanChangeSupply == "true" {
-				canChange = true
-			} else {
-				canChange = false
-			}
-			msg := types.NewMsgCreateToken(
+
+			msg := types.NewMsgCreateDenom(
 				clientCtx.GetFromAddress().String(),
 				indexDenom,
 				argsDescription,
-				uint64(max),
-				uint32(precision),
 				argsTicker,
+				uint32(argsPrecision),
 				argsUrl,
-				canChange,
+				uint64(argsMaxSupply),
+				argsCanChangeMaxSupply,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -61,32 +67,39 @@ func CmdCreateToken() *cobra.Command {
 	return cmd
 }
 
-func CmdUpdateToken() *cobra.Command {
+func CmdUpdateDenom() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-token [denom] [description] [maxsupply] [url] ",
-		Short: "Update a token",
-		Args:  cobra.ExactArgs(7),
+		Use:   "update-denom [denom] [description] [url] [max-supply] [can-change-max-supply]",
+		Short: "Update a Denom",
+		Args:  cobra.ExactArgs(5),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// Get indexes
 			indexDenom := args[0]
 
 			// Get value arguments
 			argsDescription := args[1]
-			argsMaxsupply := args[2]
-			argsUrl := args[3]
+			argsUrl := args[2]
+			argsMaxSupply, err := strconv.Atoi(args[3])
+			if err != nil {
+				return err
+			}
+			argsCanChangeMaxSupply, err := strconv.ParseBool(args[4])
 
+			if err != nil {
+				return err
+			}
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			max, err := strconv.Atoi(argsMaxsupply)
-			msg := types.NewMsgUpdateToken(
+			msg := types.NewMsgUpdateDenom(
 				clientCtx.GetFromAddress().String(),
 				indexDenom,
 				argsDescription,
-				uint64(max),
 				argsUrl,
+				uint64(argsMaxSupply),
+				argsCanChangeMaxSupply,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

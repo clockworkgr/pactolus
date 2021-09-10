@@ -5,7 +5,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # 1
 import "gogoproto/gogo.proto";
-import "pactolus/token.proto";
+import "pactolus/denom.proto";
 
 option go_package = "github.com/clockworkgr/pactolus/x/pactolus/types";
 
@@ -13,33 +13,33 @@ option go_package = "github.com/clockworkgr/pactolus/x/pactolus/types";
 service Query {
     // this line is used by starport scaffolding # 2
 
-	// Queries a token by index.
-	rpc Token(QueryGetTokenRequest) returns (QueryGetTokenResponse) {
-		option (google.api.http).get = "/clockworkgr/pactolus/pactolus/token/{denom}";
+	// Queries a denom by index.
+	rpc Denom(QueryGetDenomRequest) returns (QueryGetDenomResponse) {
+		option (google.api.http).get = "/clockworkgr/pactolus/pactolus/denom/{denom}";
 	}
 
-	// Queries a list of token items.
-	rpc TokenAll(QueryAllTokenRequest) returns (QueryAllTokenResponse) {
-		option (google.api.http).get = "/clockworkgr/pactolus/pactolus/token";
+	// Queries a list of denom items.
+	rpc DenomAll(QueryAllDenomRequest) returns (QueryAllDenomResponse) {
+		option (google.api.http).get = "/clockworkgr/pactolus/pactolus/denom";
 	}
 
 }
 
 // this line is used by starport scaffolding # 3
-message QueryGetTokenRequest {
+message QueryGetDenomRequest {
 	  string denom = 1;
 
 }
 
-message QueryGetTokenResponse {
-	Token token = 1 [(gogoproto.nullable) = false];
+message QueryGetDenomResponse {
+	Denom denom = 1 [(gogoproto.nullable) = false];
 }
 
-message QueryAllTokenRequest {
+message QueryAllDenomRequest {
 	cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
-message QueryAllTokenResponse {
-	repeated Token token = 1 [(gogoproto.nullable) = false];
+message QueryAllDenomResponse {
+	repeated Denom denom = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

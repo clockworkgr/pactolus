@@ -11,7 +11,7 @@ const DefaultIndex uint64 = 1
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		// this line is used by starport scaffolding # genesis/types/default
-		TokenList: []Token{},
+		DenomList: []Denom{},
 	}
 }
 
@@ -19,15 +19,15 @@ func DefaultGenesis() *GenesisState {
 // failure.
 func (gs GenesisState) Validate() error {
 	// this line is used by starport scaffolding # genesis/types/validate
-	// Check for duplicated index in token
-	tokenIndexMap := make(map[string]struct{})
+	// Check for duplicated index in denom
+	denomIndexMap := make(map[string]struct{})
 
-	for _, elem := range gs.TokenList {
-		index := string(TokenKey(elem.Denom))
-		if _, ok := tokenIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for token")
+	for _, elem := range gs.DenomList {
+		index := string(DenomKey(elem.Denom))
+		if _, ok := denomIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for denom")
 		}
-		tokenIndexMap[index] = struct{}{}
+		denomIndexMap[index] = struct{}{}
 	}
 
 	return nil

@@ -4,17 +4,17 @@ info:
   name: ''
   description: ''
 paths:
-  /clockworkgr/pactolus/pactolus/token:
+  /clockworkgr/pactolus/pactolus/denom:
     get:
-      summary: Queries a list of token items.
-      operationId: ClockworkgrPactolusPactolusTokenAll
+      summary: Queries a list of denom items.
+      operationId: ClockworkgrPactolusPactolusDenomAll
       responses:
         '200':
           description: A successful response.
           schema:
             type: object
             properties:
-              token:
+              denom:
                 type: array
                 items:
                   type: object
@@ -23,20 +23,20 @@ paths:
                       type: string
                     description:
                       type: string
-                    maxsupply:
+                    ticker:
+                      type: string
+                    precision:
+                      type: integer
+                      format: int64
+                    url:
+                      type: string
+                    maxSupply:
                       type: string
                       format: uint64
                     supply:
                       type: string
                       format: uint64
-                    precision:
-                      type: integer
-                      format: int64
-                    ticker:
-                      type: string
-                    url:
-                      type: string
-                    canChangeSupply:
+                    canChangeMaxSupply:
                       type: boolean
                     owner:
                       type: string
@@ -134,37 +134,37 @@ paths:
           type: boolean
       tags:
         - Query
-  '/clockworkgr/pactolus/pactolus/token/{denom}':
+  '/clockworkgr/pactolus/pactolus/denom/{denom}':
     get:
-      summary: Queries a token by index.
-      operationId: ClockworkgrPactolusPactolusToken
+      summary: Queries a denom by index.
+      operationId: ClockworkgrPactolusPactolusDenom
       responses:
         '200':
           description: A successful response.
           schema:
             type: object
             properties:
-              token:
+              denom:
                 type: object
                 properties:
                   denom:
                     type: string
                   description:
                     type: string
-                  maxsupply:
+                  ticker:
+                    type: string
+                  precision:
+                    type: integer
+                    format: int64
+                  url:
+                    type: string
+                  maxSupply:
                     type: string
                     format: uint64
                   supply:
                     type: string
                     format: uint64
-                  precision:
-                    type: integer
-                    format: int64
-                  ticker:
-                    type: string
-                  url:
-                    type: string
-                  canChangeSupply:
+                  canChangeMaxSupply:
                     type: boolean
                   owner:
                     type: string
@@ -19292,18 +19292,42 @@ paths:
       tags:
         - Query
 definitions:
-  clockworkgr.pactolus.pactolus.MsgCreateTokenResponse:
+  clockworkgr.pactolus.pactolus.Denom:
+    type: object
+    properties:
+      denom:
+        type: string
+      description:
+        type: string
+      ticker:
+        type: string
+      precision:
+        type: integer
+        format: int64
+      url:
+        type: string
+      maxSupply:
+        type: string
+        format: uint64
+      supply:
+        type: string
+        format: uint64
+      canChangeMaxSupply:
+        type: boolean
+      owner:
+        type: string
+  clockworkgr.pactolus.pactolus.MsgCreateDenomResponse:
     type: object
   clockworkgr.pactolus.pactolus.MsgMintAndSendTokensResponse:
     type: object
+  clockworkgr.pactolus.pactolus.MsgUpdateDenomResponse:
+    type: object
   clockworkgr.pactolus.pactolus.MsgUpdateOwnerResponse:
     type: object
-  clockworkgr.pactolus.pactolus.MsgUpdateTokenResponse:
-    type: object
-  clockworkgr.pactolus.pactolus.QueryAllTokenResponse:
+  clockworkgr.pactolus.pactolus.QueryAllDenomResponse:
     type: object
     properties:
-      token:
+      denom:
         type: array
         items:
           type: object
@@ -19312,20 +19336,20 @@ definitions:
               type: string
             description:
               type: string
-            maxsupply:
+            ticker:
+              type: string
+            precision:
+              type: integer
+              format: int64
+            url:
+              type: string
+            maxSupply:
               type: string
               format: uint64
             supply:
               type: string
               format: uint64
-            precision:
-              type: integer
-              format: int64
-            ticker:
-              type: string
-            url:
-              type: string
-            canChangeSupply:
+            canChangeMaxSupply:
               type: boolean
             owner:
               type: string
@@ -19354,57 +19378,33 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  clockworkgr.pactolus.pactolus.QueryGetTokenResponse:
+  clockworkgr.pactolus.pactolus.QueryGetDenomResponse:
     type: object
     properties:
-      token:
+      denom:
         type: object
         properties:
           denom:
             type: string
           description:
             type: string
-          maxsupply:
+          ticker:
+            type: string
+          precision:
+            type: integer
+            format: int64
+          url:
+            type: string
+          maxSupply:
             type: string
             format: uint64
           supply:
             type: string
             format: uint64
-          precision:
-            type: integer
-            format: int64
-          ticker:
-            type: string
-          url:
-            type: string
-          canChangeSupply:
+          canChangeMaxSupply:
             type: boolean
           owner:
             type: string
-  clockworkgr.pactolus.pactolus.Token:
-    type: object
-    properties:
-      denom:
-        type: string
-      description:
-        type: string
-      maxsupply:
-        type: string
-        format: uint64
-      supply:
-        type: string
-        format: uint64
-      precision:
-        type: integer
-        format: int64
-      ticker:
-        type: string
-      url:
-        type: string
-      canChangeSupply:
-        type: boolean
-      owner:
-        type: string
   cosmos.base.query.v1beta1.PageRequest:
     type: object
     properties:

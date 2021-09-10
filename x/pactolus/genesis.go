@@ -12,14 +12,13 @@ import (
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	// this line is used by starport scaffolding # genesis/module/init
-	// Set all the token
-
-	moduleAcc := k.GetDenomMintingAccount(ctx)
+	// Set all the denom
+	moduleAcc := k.GetPactolusAccount(ctx)
 	if moduleAcc == nil {
 		panic(fmt.Sprintf("%s module account has not been set", types.ModuleName))
 	}
-	for _, elem := range genState.TokenList {
-		k.SetToken(ctx, elem)
+	for _, elem := range genState.DenomList {
+		k.SetDenom(ctx, elem)
 	}
 
 }
@@ -29,7 +28,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis := types.DefaultGenesis()
 
 	// this line is used by starport scaffolding # genesis/module/export
-	genesis.TokenList = k.GetAllToken(ctx)
+	genesis.DenomList = k.GetAllDenom(ctx)
 
 	return genesis
 }

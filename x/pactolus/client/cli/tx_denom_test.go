@@ -18,12 +18,12 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func TestCreateToken(t *testing.T) {
+func TestCreateDenom(t *testing.T) {
 	net := network.New(t)
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
-	fields := []string{"xyz", "xyz", "xyz", "xyz", "xyz", "xyz"}
+	fields := []string{"xyz", "xyz", "xyz", "xyz", "xyz", "xyz", "xyz"}
 	for _, tc := range []struct {
 		desc    string
 		idDenom string
@@ -51,7 +51,7 @@ func TestCreateToken(t *testing.T) {
 			}
 			args = append(args, fields...)
 			args = append(args, tc.args...)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateToken(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateDenom(), args)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -64,12 +64,12 @@ func TestCreateToken(t *testing.T) {
 	}
 }
 
-func TestUpdateToken(t *testing.T) {
+func TestUpdateDenom(t *testing.T) {
 	net := network.New(t)
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
-	fields := []string{"xyz", "xyz", "xyz", "xyz", "xyz", "xyz"}
+	fields := []string{"xyz", "xyz", "xyz", "xyz", "xyz", "xyz", "xyz"}
 	common := []string{
 		fmt.Sprintf("--%s=%s", flags.FlagFrom, val.Address.String()),
 		fmt.Sprintf("--%s=true", flags.FlagSkipConfirmation),
@@ -81,7 +81,7 @@ func TestUpdateToken(t *testing.T) {
 	}
 	args = append(args, fields...)
 	args = append(args, common...)
-	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateToken(), args)
+	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateDenom(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {
@@ -113,7 +113,7 @@ func TestUpdateToken(t *testing.T) {
 			}
 			args = append(args, fields...)
 			args = append(args, tc.args...)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdUpdateToken(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdUpdateDenom(), args)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

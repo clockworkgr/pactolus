@@ -15,12 +15,12 @@ var _ = strconv.Itoa(0)
 
 func CmdUpdateOwner() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-owner [denom] [newowner]",
+		Use:   "update-owner [denom] [new-owner]",
 		Short: "Broadcast message UpdateOwner",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			argDenom := args[0]
-			argNewowner := args[1]
+			argNewOwner := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -30,7 +30,7 @@ func CmdUpdateOwner() *cobra.Command {
 			msg := types.NewMsgUpdateOwner(
 				clientCtx.GetFromAddress().String(),
 				argDenom,
-				argNewowner,
+				argNewOwner,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

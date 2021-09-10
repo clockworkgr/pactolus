@@ -1,42 +1,42 @@
 /* eslint-disable */
 import { Reader, Writer } from 'protobufjs/minimal'
-import { Token } from '../pactolus/token'
+import { Denom } from '../pactolus/denom'
 import { PageRequest, PageResponse } from '../cosmos/base/query/v1beta1/pagination'
 
 export const protobufPackage = 'clockworkgr.pactolus.pactolus'
 
 /** this line is used by starport scaffolding # 3 */
-export interface QueryGetTokenRequest {
+export interface QueryGetDenomRequest {
   denom: string
 }
 
-export interface QueryGetTokenResponse {
-  token: Token | undefined
+export interface QueryGetDenomResponse {
+  denom: Denom | undefined
 }
 
-export interface QueryAllTokenRequest {
+export interface QueryAllDenomRequest {
   pagination: PageRequest | undefined
 }
 
-export interface QueryAllTokenResponse {
-  token: Token[]
+export interface QueryAllDenomResponse {
+  denom: Denom[]
   pagination: PageResponse | undefined
 }
 
-const baseQueryGetTokenRequest: object = { denom: '' }
+const baseQueryGetDenomRequest: object = { denom: '' }
 
-export const QueryGetTokenRequest = {
-  encode(message: QueryGetTokenRequest, writer: Writer = Writer.create()): Writer {
+export const QueryGetDenomRequest = {
+  encode(message: QueryGetDenomRequest, writer: Writer = Writer.create()): Writer {
     if (message.denom !== '') {
       writer.uint32(10).string(message.denom)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetTokenRequest {
+  decode(input: Reader | Uint8Array, length?: number): QueryGetDenomRequest {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseQueryGetTokenRequest } as QueryGetTokenRequest
+    const message = { ...baseQueryGetDenomRequest } as QueryGetDenomRequest
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
@@ -51,8 +51,8 @@ export const QueryGetTokenRequest = {
     return message
   },
 
-  fromJSON(object: any): QueryGetTokenRequest {
-    const message = { ...baseQueryGetTokenRequest } as QueryGetTokenRequest
+  fromJSON(object: any): QueryGetDenomRequest {
+    const message = { ...baseQueryGetDenomRequest } as QueryGetDenomRequest
     if (object.denom !== undefined && object.denom !== null) {
       message.denom = String(object.denom)
     } else {
@@ -61,14 +61,14 @@ export const QueryGetTokenRequest = {
     return message
   },
 
-  toJSON(message: QueryGetTokenRequest): unknown {
+  toJSON(message: QueryGetDenomRequest): unknown {
     const obj: any = {}
     message.denom !== undefined && (obj.denom = message.denom)
     return obj
   },
 
-  fromPartial(object: DeepPartial<QueryGetTokenRequest>): QueryGetTokenRequest {
-    const message = { ...baseQueryGetTokenRequest } as QueryGetTokenRequest
+  fromPartial(object: DeepPartial<QueryGetDenomRequest>): QueryGetDenomRequest {
+    const message = { ...baseQueryGetDenomRequest } as QueryGetDenomRequest
     if (object.denom !== undefined && object.denom !== null) {
       message.denom = object.denom
     } else {
@@ -78,25 +78,25 @@ export const QueryGetTokenRequest = {
   }
 }
 
-const baseQueryGetTokenResponse: object = {}
+const baseQueryGetDenomResponse: object = {}
 
-export const QueryGetTokenResponse = {
-  encode(message: QueryGetTokenResponse, writer: Writer = Writer.create()): Writer {
-    if (message.token !== undefined) {
-      Token.encode(message.token, writer.uint32(10).fork()).ldelim()
+export const QueryGetDenomResponse = {
+  encode(message: QueryGetDenomResponse, writer: Writer = Writer.create()): Writer {
+    if (message.denom !== undefined) {
+      Denom.encode(message.denom, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetTokenResponse {
+  decode(input: Reader | Uint8Array, length?: number): QueryGetDenomResponse {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseQueryGetTokenResponse } as QueryGetTokenResponse
+    const message = { ...baseQueryGetDenomResponse } as QueryGetDenomResponse
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
         case 1:
-          message.token = Token.decode(reader, reader.uint32())
+          message.denom = Denom.decode(reader, reader.uint32())
           break
         default:
           reader.skipType(tag & 7)
@@ -106,47 +106,47 @@ export const QueryGetTokenResponse = {
     return message
   },
 
-  fromJSON(object: any): QueryGetTokenResponse {
-    const message = { ...baseQueryGetTokenResponse } as QueryGetTokenResponse
-    if (object.token !== undefined && object.token !== null) {
-      message.token = Token.fromJSON(object.token)
+  fromJSON(object: any): QueryGetDenomResponse {
+    const message = { ...baseQueryGetDenomResponse } as QueryGetDenomResponse
+    if (object.denom !== undefined && object.denom !== null) {
+      message.denom = Denom.fromJSON(object.denom)
     } else {
-      message.token = undefined
+      message.denom = undefined
     }
     return message
   },
 
-  toJSON(message: QueryGetTokenResponse): unknown {
+  toJSON(message: QueryGetDenomResponse): unknown {
     const obj: any = {}
-    message.token !== undefined && (obj.token = message.token ? Token.toJSON(message.token) : undefined)
+    message.denom !== undefined && (obj.denom = message.denom ? Denom.toJSON(message.denom) : undefined)
     return obj
   },
 
-  fromPartial(object: DeepPartial<QueryGetTokenResponse>): QueryGetTokenResponse {
-    const message = { ...baseQueryGetTokenResponse } as QueryGetTokenResponse
-    if (object.token !== undefined && object.token !== null) {
-      message.token = Token.fromPartial(object.token)
+  fromPartial(object: DeepPartial<QueryGetDenomResponse>): QueryGetDenomResponse {
+    const message = { ...baseQueryGetDenomResponse } as QueryGetDenomResponse
+    if (object.denom !== undefined && object.denom !== null) {
+      message.denom = Denom.fromPartial(object.denom)
     } else {
-      message.token = undefined
+      message.denom = undefined
     }
     return message
   }
 }
 
-const baseQueryAllTokenRequest: object = {}
+const baseQueryAllDenomRequest: object = {}
 
-export const QueryAllTokenRequest = {
-  encode(message: QueryAllTokenRequest, writer: Writer = Writer.create()): Writer {
+export const QueryAllDenomRequest = {
+  encode(message: QueryAllDenomRequest, writer: Writer = Writer.create()): Writer {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllTokenRequest {
+  decode(input: Reader | Uint8Array, length?: number): QueryAllDenomRequest {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseQueryAllTokenRequest } as QueryAllTokenRequest
+    const message = { ...baseQueryAllDenomRequest } as QueryAllDenomRequest
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
@@ -161,8 +161,8 @@ export const QueryAllTokenRequest = {
     return message
   },
 
-  fromJSON(object: any): QueryAllTokenRequest {
-    const message = { ...baseQueryAllTokenRequest } as QueryAllTokenRequest
+  fromJSON(object: any): QueryAllDenomRequest {
+    const message = { ...baseQueryAllDenomRequest } as QueryAllDenomRequest
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageRequest.fromJSON(object.pagination)
     } else {
@@ -171,14 +171,14 @@ export const QueryAllTokenRequest = {
     return message
   },
 
-  toJSON(message: QueryAllTokenRequest): unknown {
+  toJSON(message: QueryAllDenomRequest): unknown {
     const obj: any = {}
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined)
     return obj
   },
 
-  fromPartial(object: DeepPartial<QueryAllTokenRequest>): QueryAllTokenRequest {
-    const message = { ...baseQueryAllTokenRequest } as QueryAllTokenRequest
+  fromPartial(object: DeepPartial<QueryAllDenomRequest>): QueryAllDenomRequest {
+    const message = { ...baseQueryAllDenomRequest } as QueryAllDenomRequest
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageRequest.fromPartial(object.pagination)
     } else {
@@ -188,12 +188,12 @@ export const QueryAllTokenRequest = {
   }
 }
 
-const baseQueryAllTokenResponse: object = {}
+const baseQueryAllDenomResponse: object = {}
 
-export const QueryAllTokenResponse = {
-  encode(message: QueryAllTokenResponse, writer: Writer = Writer.create()): Writer {
-    for (const v of message.token) {
-      Token.encode(v!, writer.uint32(10).fork()).ldelim()
+export const QueryAllDenomResponse = {
+  encode(message: QueryAllDenomResponse, writer: Writer = Writer.create()): Writer {
+    for (const v of message.denom) {
+      Denom.encode(v!, writer.uint32(10).fork()).ldelim()
     }
     if (message.pagination !== undefined) {
       PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim()
@@ -201,16 +201,16 @@ export const QueryAllTokenResponse = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllTokenResponse {
+  decode(input: Reader | Uint8Array, length?: number): QueryAllDenomResponse {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseQueryAllTokenResponse } as QueryAllTokenResponse
-    message.token = []
+    const message = { ...baseQueryAllDenomResponse } as QueryAllDenomResponse
+    message.denom = []
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
         case 1:
-          message.token.push(Token.decode(reader, reader.uint32()))
+          message.denom.push(Denom.decode(reader, reader.uint32()))
           break
         case 2:
           message.pagination = PageResponse.decode(reader, reader.uint32())
@@ -223,12 +223,12 @@ export const QueryAllTokenResponse = {
     return message
   },
 
-  fromJSON(object: any): QueryAllTokenResponse {
-    const message = { ...baseQueryAllTokenResponse } as QueryAllTokenResponse
-    message.token = []
-    if (object.token !== undefined && object.token !== null) {
-      for (const e of object.token) {
-        message.token.push(Token.fromJSON(e))
+  fromJSON(object: any): QueryAllDenomResponse {
+    const message = { ...baseQueryAllDenomResponse } as QueryAllDenomResponse
+    message.denom = []
+    if (object.denom !== undefined && object.denom !== null) {
+      for (const e of object.denom) {
+        message.denom.push(Denom.fromJSON(e))
       }
     }
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -239,23 +239,23 @@ export const QueryAllTokenResponse = {
     return message
   },
 
-  toJSON(message: QueryAllTokenResponse): unknown {
+  toJSON(message: QueryAllDenomResponse): unknown {
     const obj: any = {}
-    if (message.token) {
-      obj.token = message.token.map((e) => (e ? Token.toJSON(e) : undefined))
+    if (message.denom) {
+      obj.denom = message.denom.map((e) => (e ? Denom.toJSON(e) : undefined))
     } else {
-      obj.token = []
+      obj.denom = []
     }
     message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined)
     return obj
   },
 
-  fromPartial(object: DeepPartial<QueryAllTokenResponse>): QueryAllTokenResponse {
-    const message = { ...baseQueryAllTokenResponse } as QueryAllTokenResponse
-    message.token = []
-    if (object.token !== undefined && object.token !== null) {
-      for (const e of object.token) {
-        message.token.push(Token.fromPartial(e))
+  fromPartial(object: DeepPartial<QueryAllDenomResponse>): QueryAllDenomResponse {
+    const message = { ...baseQueryAllDenomResponse } as QueryAllDenomResponse
+    message.denom = []
+    if (object.denom !== undefined && object.denom !== null) {
+      for (const e of object.denom) {
+        message.denom.push(Denom.fromPartial(e))
       }
     }
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -269,10 +269,10 @@ export const QueryAllTokenResponse = {
 
 /** Query defines the gRPC querier service. */
 export interface Query {
-  /** Queries a token by index. */
-  Token(request: QueryGetTokenRequest): Promise<QueryGetTokenResponse>
-  /** Queries a list of token items. */
-  TokenAll(request: QueryAllTokenRequest): Promise<QueryAllTokenResponse>
+  /** Queries a denom by index. */
+  Denom(request: QueryGetDenomRequest): Promise<QueryGetDenomResponse>
+  /** Queries a list of denom items. */
+  DenomAll(request: QueryAllDenomRequest): Promise<QueryAllDenomResponse>
 }
 
 export class QueryClientImpl implements Query {
@@ -280,16 +280,16 @@ export class QueryClientImpl implements Query {
   constructor(rpc: Rpc) {
     this.rpc = rpc
   }
-  Token(request: QueryGetTokenRequest): Promise<QueryGetTokenResponse> {
-    const data = QueryGetTokenRequest.encode(request).finish()
-    const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Query', 'Token', data)
-    return promise.then((data) => QueryGetTokenResponse.decode(new Reader(data)))
+  Denom(request: QueryGetDenomRequest): Promise<QueryGetDenomResponse> {
+    const data = QueryGetDenomRequest.encode(request).finish()
+    const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Query', 'Denom', data)
+    return promise.then((data) => QueryGetDenomResponse.decode(new Reader(data)))
   }
 
-  TokenAll(request: QueryAllTokenRequest): Promise<QueryAllTokenResponse> {
-    const data = QueryAllTokenRequest.encode(request).finish()
-    const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Query', 'TokenAll', data)
-    return promise.then((data) => QueryAllTokenResponse.decode(new Reader(data)))
+  DenomAll(request: QueryAllDenomRequest): Promise<QueryAllDenomResponse> {
+    const data = QueryAllDenomRequest.encode(request).finish()
+    const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Query', 'DenomAll', data)
+    return promise.then((data) => QueryAllDenomResponse.decode(new Reader(data)))
   }
 }
 

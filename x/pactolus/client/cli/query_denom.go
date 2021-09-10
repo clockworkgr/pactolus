@@ -10,10 +10,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 )
 
-func CmdListToken() *cobra.Command {
+func CmdListDenom() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list-token",
-		Short: "list all token",
+		Use:   "list-denom",
+		Short: "list all Denom",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
 
@@ -24,11 +24,11 @@ func CmdListToken() *cobra.Command {
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			params := &types.QueryAllTokenRequest{
+			params := &types.QueryAllDenomRequest{
 				Pagination: pageReq,
 			}
 
-			res, err := queryClient.TokenAll(context.Background(), params)
+			res, err := queryClient.DenomAll(context.Background(), params)
 			if err != nil {
 				return err
 			}
@@ -43,10 +43,10 @@ func CmdListToken() *cobra.Command {
 	return cmd
 }
 
-func CmdShowToken() *cobra.Command {
+func CmdShowDenom() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-token [denom]",
-		Short: "shows a token",
+		Use:   "show-denom [denom]",
+		Short: "shows a Denom",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
@@ -55,11 +55,11 @@ func CmdShowToken() *cobra.Command {
 
 			argsDenom := args[0]
 
-			params := &types.QueryGetTokenRequest{
+			params := &types.QueryGetDenomRequest{
 				Denom: argsDenom,
 			}
 
-			res, err := queryClient.Token(context.Background(), params)
+			res, err := queryClient.Denom(context.Background(), params)
 			if err != nil {
 				return err
 			}

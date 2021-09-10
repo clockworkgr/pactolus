@@ -11,24 +11,24 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) TokenAll(c context.Context, req *types.QueryAllTokenRequest) (*types.QueryAllTokenResponse, error) {
+func (k Keeper) DenomAll(c context.Context, req *types.QueryAllDenomRequest) (*types.QueryAllDenomResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var tokens []types.Token
+	var denoms []types.Denom
 	ctx := sdk.UnwrapSDKContext(c)
 
 	store := ctx.KVStore(k.storeKey)
-	tokenStore := prefix.NewStore(store, types.KeyPrefix(types.TokenKeyPrefix))
+	denomStore := prefix.NewStore(store, types.KeyPrefix(types.DenomKeyPrefix))
 
-	pageRes, err := query.Paginate(tokenStore, req.Pagination, func(key []byte, value []byte) error {
-		var token types.Token
-		if err := k.cdc.UnmarshalBinaryBare(value, &token); err != nil {
+	pageRes, err := query.Paginate(denomStore, req.Pagination, func(key []byte, value []byte) error {
+		var denom types.Denom
+		if err := k.cdc.UnmarshalBinaryBare(value, &denom); err != nil {
 			return err
 		}
 
-		tokens = append(tokens, token)
+		denoms = append(denoms, denom)
 		return nil
 	})
 
@@ -36,16 +36,16 @@ func (k Keeper) TokenAll(c context.Context, req *types.QueryAllTokenRequest) (*t
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryAllTokenResponse{Token: tokens, Pagination: pageRes}, nil
+	return &types.QueryAllDenomResponse{Denom: denoms, Pagination: pageRes}, nil
 }
 
-func (k Keeper) Token(c context.Context, req *types.QueryGetTokenRequest) (*types.QueryGetTokenResponse, error) {
+func (k Keeper) Denom(c context.Context, req *types.QueryGetDenomRequest) (*types.QueryGetDenomResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 	ctx := sdk.UnwrapSDKContext(c)
 
-	val, found := k.GetToken(
+	val, found := k.GetDenom(
 		ctx,
 		req.Denom,
 	)
@@ -53,5 +53,5 @@ func (k Keeper) Token(c context.Context, req *types.QueryGetTokenRequest) (*type
 		return nil, status.Error(codes.InvalidArgument, "not found")
 	}
 
-	return &types.QueryGetTokenResponse{Token: val}, nil
+	return &types.QueryGetDenomResponse{Denom: val}, nil
 }

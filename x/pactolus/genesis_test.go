@@ -12,7 +12,7 @@ import (
 func TestGenesis(t *testing.T) {
 	genesisState := types.GenesisState{
 		// this line is used by starport scaffolding # genesis/test/state
-		TokenList: []types.Token{
+		DenomList: []types.Denom{
 			{
 				Denom: "0",
 			},
@@ -28,7 +28,7 @@ func TestGenesis(t *testing.T) {
 	require.NotNil(t, got)
 
 	// this line is used by starport scaffolding # genesis/test/assert
-	require.Len(t, got.TokenList, len(genesisState.TokenList))
-	require.Subset(t, genesisState.TokenList, got.TokenList)
+	require.Len(t, got.DenomList, len(genesisState.DenomList))
+	require.Subset(t, genesisState.DenomList, got.DenomList)
 
 }

@@ -11,10 +11,8 @@ import (
 func (k msgServer) MintAndSendTokens(goCtx context.Context, msg *types.MsgMintAndSendTokens) (*types.MsgMintAndSendTokensResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Handling the message
-
 	// Check if the value exists
-	valFound, isFound := k.GetToken(
+	valFound, isFound := k.GetDenom(
 		ctx,
 		msg.Denom,
 	)
@@ -27,6 +25,9 @@ func (k msgServer) MintAndSendTokens(goCtx context.Context, msg *types.MsgMintAn
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
+	if valFound.Supply+msg.Amount > valFound.MaxSupply {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Cannot mint more than Max Supply")
+	}
 	moduleAcct := k.accountKeeper.GetModuleAddress(types.ModuleName)
 	ownerAddress, err := sdk.AccAddressFromBech32(msg.Owner)
 	if err != nil {
@@ -36,9 +37,7 @@ func (k msgServer) MintAndSendTokens(goCtx context.Context, msg *types.MsgMintAn
 	if err != nil {
 		return nil, err
 	}
-	if valFound.Supply+msg.Amount > valFound.Maxsupply {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "max supply reached")
-	}
+
 	var mintCoins, feeCoins sdk.Coins
 	feeCoins = feeCoins.Add(sdk.NewCoin("upact", sdk.NewInt(20)))
 	if err := k.bankKeeper.SendCoins(ctx, ownerAddress, moduleAcct, feeCoins); err != nil {
@@ -51,21 +50,22 @@ func (k msgServer) MintAndSendTokens(goCtx context.Context, msg *types.MsgMintAn
 	if err := k.bankKeeper.SendCoins(ctx, moduleAcct, recipientAddress, mintCoins); err != nil {
 		return nil, err
 	}
-	var token = types.Token{
-		Owner:           valFound.Owner,
-		Denom:           valFound.Denom,
-		Description:     valFound.Description,
-		Maxsupply:       valFound.Maxsupply,
-		Supply:          valFound.Supply + msg.Amount,
-		Precision:       valFound.Precision,
-		Ticker:          valFound.Ticker,
-		Url:             valFound.Url,
-		CanChangeSupply: valFound.CanChangeSupply,
+
+	var denom = types.Denom{
+		Owner:              valFound.Owner,
+		Denom:              valFound.Denom,
+		Description:        valFound.Description,
+		MaxSupply:          valFound.MaxSupply,
+		Supply:             valFound.Supply + msg.Amount,
+		Precision:          valFound.Precision,
+		Ticker:             valFound.Ticker,
+		Url:                valFound.Url,
+		CanChangeMaxSupply: valFound.CanChangeMaxSupply,
 	}
 
-	k.SetToken(
+	k.SetDenom(
 		ctx,
-		token,
+		denom,
 	)
 	return &types.MsgMintAndSendTokensResponse{}, nil
 }

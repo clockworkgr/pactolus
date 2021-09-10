@@ -26,11 +26,11 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 			res, err := msgServer.MintAndSendTokens(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 
-		case *types.MsgCreateToken:
-			res, err := msgServer.CreateToken(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgCreateDenom:
+			res, err := msgServer.CreateDenom(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgUpdateToken:
-			res, err := msgServer.UpdateToken(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgUpdateDenom:
+			res, err := msgServer.UpdateDenom(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 
 		default:

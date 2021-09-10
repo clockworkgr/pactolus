@@ -8,21 +8,21 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestMsgCreateToken_ValidateBasic(t *testing.T) {
+func TestMsgCreateDenom_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgCreateToken
+		msg  MsgCreateDenom
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgCreateToken{
+			msg: MsgCreateDenom{
 				Owner: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgCreateToken{
+			msg: MsgCreateDenom{
 				Owner: sample.AccAddress(),
 			},
 		},
@@ -39,21 +39,21 @@ func TestMsgCreateToken_ValidateBasic(t *testing.T) {
 	}
 }
 
-func TestMsgUpdateToken_ValidateBasic(t *testing.T) {
+func TestMsgUpdateDenom_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgUpdateToken
+		msg  MsgUpdateDenom
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgUpdateToken{
+			msg: MsgUpdateDenom{
 				Owner: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgUpdateToken{
+			msg: MsgUpdateDenom{
 				Owner: sample.AccAddress(),
 			},
 		},

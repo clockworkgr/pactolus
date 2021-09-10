@@ -16,18 +16,18 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func TestTokenMsgServerCreate(t *testing.T) {
+func TestDenomMsgServerCreate(t *testing.T) {
 	k, ctx := keepertest.PactolusKeeper(t)
 	srv := keeper.NewMsgServerImpl(*k)
 	wctx := sdk.WrapSDKContext(ctx)
 	owner := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateToken{Owner: owner,
+		expected := &types.MsgCreateDenom{Owner: owner,
 			Denom: strconv.Itoa(i),
 		}
-		_, err := srv.CreateToken(wctx, expected)
+		_, err := srv.CreateDenom(wctx, expected)
 		require.NoError(t, err)
-		rst, found := k.GetToken(ctx,
+		rst, found := k.GetDenom(ctx,
 			expected.Denom,
 		)
 		require.True(t, found)
@@ -35,30 +35,30 @@ func TestTokenMsgServerCreate(t *testing.T) {
 	}
 }
 
-func TestTokenMsgServerUpdate(t *testing.T) {
+func TestDenomMsgServerUpdate(t *testing.T) {
 	owner := "A"
 
 	for _, tc := range []struct {
 		desc    string
-		request *types.MsgUpdateToken
+		request *types.MsgUpdateDenom
 		err     error
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgUpdateToken{Owner: owner,
+			request: &types.MsgUpdateDenom{Owner: owner,
 				Denom: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgUpdateToken{Owner: "B",
+			request: &types.MsgUpdateDenom{Owner: "B",
 				Denom: strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgUpdateToken{Owner: owner,
+			request: &types.MsgUpdateDenom{Owner: owner,
 				Denom: strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
@@ -68,18 +68,18 @@ func TestTokenMsgServerUpdate(t *testing.T) {
 			k, ctx := keepertest.PactolusKeeper(t)
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
-			expected := &types.MsgCreateToken{Owner: owner,
+			expected := &types.MsgCreateDenom{Owner: owner,
 				Denom: strconv.Itoa(0),
 			}
-			_, err := srv.CreateToken(wctx, expected)
+			_, err := srv.CreateDenom(wctx, expected)
 			require.NoError(t, err)
 
-			_, err = srv.UpdateToken(wctx, tc.request)
+			_, err = srv.UpdateDenom(wctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
 				require.NoError(t, err)
-				rst, found := k.GetToken(ctx,
+				rst, found := k.GetDenom(ctx,
 					expected.Denom,
 				)
 				require.True(t, found)

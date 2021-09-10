@@ -1,12 +1,12 @@
 /* eslint-disable */
-import { Token } from '../pactolus/token';
+import { Denom } from '../pactolus/denom';
 import { Writer, Reader } from 'protobufjs/minimal';
 export const protobufPackage = 'clockworkgr.pactolus.pactolus';
 const baseGenesisState = {};
 export const GenesisState = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.tokenList) {
-            Token.encode(v, writer.uint32(10).fork()).ldelim();
+        for (const v of message.denomList) {
+            Denom.encode(v, writer.uint32(10).fork()).ldelim();
         }
         return writer;
     },
@@ -14,12 +14,12 @@ export const GenesisState = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = { ...baseGenesisState };
-        message.tokenList = [];
+        message.denomList = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.tokenList.push(Token.decode(reader, reader.uint32()));
+                    message.denomList.push(Denom.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -30,30 +30,30 @@ export const GenesisState = {
     },
     fromJSON(object) {
         const message = { ...baseGenesisState };
-        message.tokenList = [];
-        if (object.tokenList !== undefined && object.tokenList !== null) {
-            for (const e of object.tokenList) {
-                message.tokenList.push(Token.fromJSON(e));
+        message.denomList = [];
+        if (object.denomList !== undefined && object.denomList !== null) {
+            for (const e of object.denomList) {
+                message.denomList.push(Denom.fromJSON(e));
             }
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        if (message.tokenList) {
-            obj.tokenList = message.tokenList.map((e) => (e ? Token.toJSON(e) : undefined));
+        if (message.denomList) {
+            obj.denomList = message.denomList.map((e) => (e ? Denom.toJSON(e) : undefined));
         }
         else {
-            obj.tokenList = [];
+            obj.denomList = [];
         }
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseGenesisState };
-        message.tokenList = [];
-        if (object.tokenList !== undefined && object.tokenList !== null) {
-            for (const e of object.tokenList) {
-                message.tokenList.push(Token.fromPartial(e));
+        message.denomList = [];
+        if (object.denomList !== undefined && object.denomList !== null) {
+            for (const e of object.denomList) {
+                message.denomList.push(Denom.fromPartial(e));
             }
         }
         return message;

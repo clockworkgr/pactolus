@@ -13,8 +13,8 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 
 	cdc.RegisterConcrete(&MsgMintAndSendTokens{}, "pactolus/MintAndSendTokens", nil)
 
-	cdc.RegisterConcrete(&MsgCreateToken{}, "pactolus/CreateToken", nil)
-	cdc.RegisterConcrete(&MsgUpdateToken{}, "pactolus/UpdateToken", nil)
+	cdc.RegisterConcrete(&MsgCreateDenom{}, "pactolus/CreateDenom", nil)
+	cdc.RegisterConcrete(&MsgUpdateDenom{}, "pactolus/UpdateDenom", nil)
 
 }
 
@@ -27,8 +27,8 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgMintAndSendTokens{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCreateToken{},
-		&MsgUpdateToken{},
+		&MsgCreateDenom{},
+		&MsgUpdateDenom{},
 	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)

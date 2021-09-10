@@ -2,7 +2,7 @@
 import { Reader, util, configure, Writer } from 'protobufjs/minimal';
 import * as Long from 'long';
 export const protobufPackage = 'clockworkgr.pactolus.pactolus';
-const baseMsgUpdateOwner = { owner: '', denom: '', newowner: '' };
+const baseMsgUpdateOwner = { owner: '', denom: '', newOwner: '' };
 export const MsgUpdateOwner = {
     encode(message, writer = Writer.create()) {
         if (message.owner !== '') {
@@ -11,8 +11,8 @@ export const MsgUpdateOwner = {
         if (message.denom !== '') {
             writer.uint32(18).string(message.denom);
         }
-        if (message.newowner !== '') {
-            writer.uint32(26).string(message.newowner);
+        if (message.newOwner !== '') {
+            writer.uint32(26).string(message.newOwner);
         }
         return writer;
     },
@@ -30,7 +30,7 @@ export const MsgUpdateOwner = {
                     message.denom = reader.string();
                     break;
                 case 3:
-                    message.newowner = reader.string();
+                    message.newOwner = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -53,11 +53,11 @@ export const MsgUpdateOwner = {
         else {
             message.denom = '';
         }
-        if (object.newowner !== undefined && object.newowner !== null) {
-            message.newowner = String(object.newowner);
+        if (object.newOwner !== undefined && object.newOwner !== null) {
+            message.newOwner = String(object.newOwner);
         }
         else {
-            message.newowner = '';
+            message.newOwner = '';
         }
         return message;
     },
@@ -65,7 +65,7 @@ export const MsgUpdateOwner = {
         const obj = {};
         message.owner !== undefined && (obj.owner = message.owner);
         message.denom !== undefined && (obj.denom = message.denom);
-        message.newowner !== undefined && (obj.newowner = message.newowner);
+        message.newOwner !== undefined && (obj.newOwner = message.newOwner);
         return obj;
     },
     fromPartial(object) {
@@ -82,11 +82,11 @@ export const MsgUpdateOwner = {
         else {
             message.denom = '';
         }
-        if (object.newowner !== undefined && object.newowner !== null) {
-            message.newowner = object.newowner;
+        if (object.newOwner !== undefined && object.newOwner !== null) {
+            message.newOwner = object.newOwner;
         }
         else {
-            message.newowner = '';
+            message.newOwner = '';
         }
         return message;
     }
@@ -263,8 +263,8 @@ export const MsgMintAndSendTokensResponse = {
         return message;
     }
 };
-const baseMsgCreateToken = { owner: '', denom: '', description: '', maxsupply: 0, supply: 0, precision: 0, ticker: '', url: '', canChangeSupply: false };
-export const MsgCreateToken = {
+const baseMsgCreateDenom = { owner: '', denom: '', description: '', ticker: '', precision: 0, url: '', maxSupply: 0, canChangeMaxSupply: false };
+export const MsgCreateDenom = {
     encode(message, writer = Writer.create()) {
         if (message.owner !== '') {
             writer.uint32(10).string(message.owner);
@@ -275,30 +275,27 @@ export const MsgCreateToken = {
         if (message.description !== '') {
             writer.uint32(26).string(message.description);
         }
-        if (message.maxsupply !== 0) {
-            writer.uint32(32).uint64(message.maxsupply);
-        }
-        if (message.supply !== 0) {
-            writer.uint32(40).uint64(message.supply);
+        if (message.ticker !== '') {
+            writer.uint32(34).string(message.ticker);
         }
         if (message.precision !== 0) {
-            writer.uint32(48).uint32(message.precision);
-        }
-        if (message.ticker !== '') {
-            writer.uint32(58).string(message.ticker);
+            writer.uint32(40).uint32(message.precision);
         }
         if (message.url !== '') {
-            writer.uint32(66).string(message.url);
+            writer.uint32(50).string(message.url);
         }
-        if (message.canChangeSupply === true) {
-            writer.uint32(72).bool(message.canChangeSupply);
+        if (message.maxSupply !== 0) {
+            writer.uint32(56).uint64(message.maxSupply);
+        }
+        if (message.canChangeMaxSupply === true) {
+            writer.uint32(64).bool(message.canChangeMaxSupply);
         }
         return writer;
     },
     decode(input, length) {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = { ...baseMsgCreateToken };
+        const message = { ...baseMsgCreateDenom };
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -312,22 +309,19 @@ export const MsgCreateToken = {
                     message.description = reader.string();
                     break;
                 case 4:
-                    message.maxsupply = longToNumber(reader.uint64());
-                    break;
-                case 5:
-                    message.supply = longToNumber(reader.uint64());
-                    break;
-                case 6:
-                    message.precision = reader.uint32();
-                    break;
-                case 7:
                     message.ticker = reader.string();
                     break;
-                case 8:
+                case 5:
+                    message.precision = reader.uint32();
+                    break;
+                case 6:
                     message.url = reader.string();
                     break;
-                case 9:
-                    message.canChangeSupply = reader.bool();
+                case 7:
+                    message.maxSupply = longToNumber(reader.uint64());
+                    break;
+                case 8:
+                    message.canChangeMaxSupply = reader.bool();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -337,7 +331,7 @@ export const MsgCreateToken = {
         return message;
     },
     fromJSON(object) {
-        const message = { ...baseMsgCreateToken };
+        const message = { ...baseMsgCreateDenom };
         if (object.owner !== undefined && object.owner !== null) {
             message.owner = String(object.owner);
         }
@@ -355,24 +349,6 @@ export const MsgCreateToken = {
         }
         else {
             message.description = '';
-        }
-        if (object.maxsupply !== undefined && object.maxsupply !== null) {
-            message.maxsupply = Number(object.maxsupply);
-        }
-        else {
-            message.maxsupply = 0;
-        }
-        if (object.supply !== undefined && object.supply !== null) {
-            message.supply = Number(object.supply);
-        }
-        else {
-            message.supply = 0;
-        }
-        if (object.precision !== undefined && object.precision !== null) {
-            message.precision = Number(object.precision);
-        }
-        else {
-            message.precision = 0;
         }
         if (object.ticker !== undefined && object.ticker !== null) {
             message.ticker = String(object.ticker);
@@ -380,17 +356,29 @@ export const MsgCreateToken = {
         else {
             message.ticker = '';
         }
+        if (object.precision !== undefined && object.precision !== null) {
+            message.precision = Number(object.precision);
+        }
+        else {
+            message.precision = 0;
+        }
         if (object.url !== undefined && object.url !== null) {
             message.url = String(object.url);
         }
         else {
             message.url = '';
         }
-        if (object.canChangeSupply !== undefined && object.canChangeSupply !== null) {
-            message.canChangeSupply = Boolean(object.canChangeSupply);
+        if (object.maxSupply !== undefined && object.maxSupply !== null) {
+            message.maxSupply = Number(object.maxSupply);
         }
         else {
-            message.canChangeSupply = false;
+            message.maxSupply = 0;
+        }
+        if (object.canChangeMaxSupply !== undefined && object.canChangeMaxSupply !== null) {
+            message.canChangeMaxSupply = Boolean(object.canChangeMaxSupply);
+        }
+        else {
+            message.canChangeMaxSupply = false;
         }
         return message;
     },
@@ -399,16 +387,15 @@ export const MsgCreateToken = {
         message.owner !== undefined && (obj.owner = message.owner);
         message.denom !== undefined && (obj.denom = message.denom);
         message.description !== undefined && (obj.description = message.description);
-        message.maxsupply !== undefined && (obj.maxsupply = message.maxsupply);
-        message.supply !== undefined && (obj.supply = message.supply);
-        message.precision !== undefined && (obj.precision = message.precision);
         message.ticker !== undefined && (obj.ticker = message.ticker);
+        message.precision !== undefined && (obj.precision = message.precision);
         message.url !== undefined && (obj.url = message.url);
-        message.canChangeSupply !== undefined && (obj.canChangeSupply = message.canChangeSupply);
+        message.maxSupply !== undefined && (obj.maxSupply = message.maxSupply);
+        message.canChangeMaxSupply !== undefined && (obj.canChangeMaxSupply = message.canChangeMaxSupply);
         return obj;
     },
     fromPartial(object) {
-        const message = { ...baseMsgCreateToken };
+        const message = { ...baseMsgCreateDenom };
         if (object.owner !== undefined && object.owner !== null) {
             message.owner = object.owner;
         }
@@ -427,17 +414,11 @@ export const MsgCreateToken = {
         else {
             message.description = '';
         }
-        if (object.maxsupply !== undefined && object.maxsupply !== null) {
-            message.maxsupply = object.maxsupply;
+        if (object.ticker !== undefined && object.ticker !== null) {
+            message.ticker = object.ticker;
         }
         else {
-            message.maxsupply = 0;
-        }
-        if (object.supply !== undefined && object.supply !== null) {
-            message.supply = object.supply;
-        }
-        else {
-            message.supply = 0;
+            message.ticker = '';
         }
         if (object.precision !== undefined && object.precision !== null) {
             message.precision = object.precision;
@@ -445,36 +426,36 @@ export const MsgCreateToken = {
         else {
             message.precision = 0;
         }
-        if (object.ticker !== undefined && object.ticker !== null) {
-            message.ticker = object.ticker;
-        }
-        else {
-            message.ticker = '';
-        }
         if (object.url !== undefined && object.url !== null) {
             message.url = object.url;
         }
         else {
             message.url = '';
         }
-        if (object.canChangeSupply !== undefined && object.canChangeSupply !== null) {
-            message.canChangeSupply = object.canChangeSupply;
+        if (object.maxSupply !== undefined && object.maxSupply !== null) {
+            message.maxSupply = object.maxSupply;
         }
         else {
-            message.canChangeSupply = false;
+            message.maxSupply = 0;
+        }
+        if (object.canChangeMaxSupply !== undefined && object.canChangeMaxSupply !== null) {
+            message.canChangeMaxSupply = object.canChangeMaxSupply;
+        }
+        else {
+            message.canChangeMaxSupply = false;
         }
         return message;
     }
 };
-const baseMsgCreateTokenResponse = {};
-export const MsgCreateTokenResponse = {
+const baseMsgCreateDenomResponse = {};
+export const MsgCreateDenomResponse = {
     encode(_, writer = Writer.create()) {
         return writer;
     },
     decode(input, length) {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = { ...baseMsgCreateTokenResponse };
+        const message = { ...baseMsgCreateDenomResponse };
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -486,7 +467,7 @@ export const MsgCreateTokenResponse = {
         return message;
     },
     fromJSON(_) {
-        const message = { ...baseMsgCreateTokenResponse };
+        const message = { ...baseMsgCreateDenomResponse };
         return message;
     },
     toJSON(_) {
@@ -494,12 +475,12 @@ export const MsgCreateTokenResponse = {
         return obj;
     },
     fromPartial(_) {
-        const message = { ...baseMsgCreateTokenResponse };
+        const message = { ...baseMsgCreateDenomResponse };
         return message;
     }
 };
-const baseMsgUpdateToken = { owner: '', denom: '', description: '', maxsupply: 0, url: '' };
-export const MsgUpdateToken = {
+const baseMsgUpdateDenom = { owner: '', denom: '', description: '', url: '', maxSupply: 0, canChangeMaxSupply: false };
+export const MsgUpdateDenom = {
     encode(message, writer = Writer.create()) {
         if (message.owner !== '') {
             writer.uint32(10).string(message.owner);
@@ -510,18 +491,21 @@ export const MsgUpdateToken = {
         if (message.description !== '') {
             writer.uint32(26).string(message.description);
         }
-        if (message.maxsupply !== 0) {
-            writer.uint32(32).uint64(message.maxsupply);
-        }
         if (message.url !== '') {
-            writer.uint32(42).string(message.url);
+            writer.uint32(34).string(message.url);
+        }
+        if (message.maxSupply !== 0) {
+            writer.uint32(40).uint64(message.maxSupply);
+        }
+        if (message.canChangeMaxSupply === true) {
+            writer.uint32(48).bool(message.canChangeMaxSupply);
         }
         return writer;
     },
     decode(input, length) {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = { ...baseMsgUpdateToken };
+        const message = { ...baseMsgUpdateDenom };
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -535,10 +519,13 @@ export const MsgUpdateToken = {
                     message.description = reader.string();
                     break;
                 case 4:
-                    message.maxsupply = longToNumber(reader.uint64());
+                    message.url = reader.string();
                     break;
                 case 5:
-                    message.url = reader.string();
+                    message.maxSupply = longToNumber(reader.uint64());
+                    break;
+                case 6:
+                    message.canChangeMaxSupply = reader.bool();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -548,7 +535,7 @@ export const MsgUpdateToken = {
         return message;
     },
     fromJSON(object) {
-        const message = { ...baseMsgUpdateToken };
+        const message = { ...baseMsgUpdateDenom };
         if (object.owner !== undefined && object.owner !== null) {
             message.owner = String(object.owner);
         }
@@ -567,17 +554,23 @@ export const MsgUpdateToken = {
         else {
             message.description = '';
         }
-        if (object.maxsupply !== undefined && object.maxsupply !== null) {
-            message.maxsupply = Number(object.maxsupply);
-        }
-        else {
-            message.maxsupply = 0;
-        }
         if (object.url !== undefined && object.url !== null) {
             message.url = String(object.url);
         }
         else {
             message.url = '';
+        }
+        if (object.maxSupply !== undefined && object.maxSupply !== null) {
+            message.maxSupply = Number(object.maxSupply);
+        }
+        else {
+            message.maxSupply = 0;
+        }
+        if (object.canChangeMaxSupply !== undefined && object.canChangeMaxSupply !== null) {
+            message.canChangeMaxSupply = Boolean(object.canChangeMaxSupply);
+        }
+        else {
+            message.canChangeMaxSupply = false;
         }
         return message;
     },
@@ -586,12 +579,13 @@ export const MsgUpdateToken = {
         message.owner !== undefined && (obj.owner = message.owner);
         message.denom !== undefined && (obj.denom = message.denom);
         message.description !== undefined && (obj.description = message.description);
-        message.maxsupply !== undefined && (obj.maxsupply = message.maxsupply);
         message.url !== undefined && (obj.url = message.url);
+        message.maxSupply !== undefined && (obj.maxSupply = message.maxSupply);
+        message.canChangeMaxSupply !== undefined && (obj.canChangeMaxSupply = message.canChangeMaxSupply);
         return obj;
     },
     fromPartial(object) {
-        const message = { ...baseMsgUpdateToken };
+        const message = { ...baseMsgUpdateDenom };
         if (object.owner !== undefined && object.owner !== null) {
             message.owner = object.owner;
         }
@@ -610,30 +604,36 @@ export const MsgUpdateToken = {
         else {
             message.description = '';
         }
-        if (object.maxsupply !== undefined && object.maxsupply !== null) {
-            message.maxsupply = object.maxsupply;
-        }
-        else {
-            message.maxsupply = 0;
-        }
         if (object.url !== undefined && object.url !== null) {
             message.url = object.url;
         }
         else {
             message.url = '';
         }
+        if (object.maxSupply !== undefined && object.maxSupply !== null) {
+            message.maxSupply = object.maxSupply;
+        }
+        else {
+            message.maxSupply = 0;
+        }
+        if (object.canChangeMaxSupply !== undefined && object.canChangeMaxSupply !== null) {
+            message.canChangeMaxSupply = object.canChangeMaxSupply;
+        }
+        else {
+            message.canChangeMaxSupply = false;
+        }
         return message;
     }
 };
-const baseMsgUpdateTokenResponse = {};
-export const MsgUpdateTokenResponse = {
+const baseMsgUpdateDenomResponse = {};
+export const MsgUpdateDenomResponse = {
     encode(_, writer = Writer.create()) {
         return writer;
     },
     decode(input, length) {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = { ...baseMsgUpdateTokenResponse };
+        const message = { ...baseMsgUpdateDenomResponse };
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -645,7 +645,7 @@ export const MsgUpdateTokenResponse = {
         return message;
     },
     fromJSON(_) {
-        const message = { ...baseMsgUpdateTokenResponse };
+        const message = { ...baseMsgUpdateDenomResponse };
         return message;
     },
     toJSON(_) {
@@ -653,7 +653,7 @@ export const MsgUpdateTokenResponse = {
         return obj;
     },
     fromPartial(_) {
-        const message = { ...baseMsgUpdateTokenResponse };
+        const message = { ...baseMsgUpdateDenomResponse };
         return message;
     }
 };
@@ -671,15 +671,15 @@ export class MsgClientImpl {
         const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Msg', 'MintAndSendTokens', data);
         return promise.then((data) => MsgMintAndSendTokensResponse.decode(new Reader(data)));
     }
-    CreateToken(request) {
-        const data = MsgCreateToken.encode(request).finish();
-        const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Msg', 'CreateToken', data);
-        return promise.then((data) => MsgCreateTokenResponse.decode(new Reader(data)));
+    CreateDenom(request) {
+        const data = MsgCreateDenom.encode(request).finish();
+        const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Msg', 'CreateDenom', data);
+        return promise.then((data) => MsgCreateDenomResponse.decode(new Reader(data)));
     }
-    UpdateToken(request) {
-        const data = MsgUpdateToken.encode(request).finish();
-        const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Msg', 'UpdateToken', data);
-        return promise.then((data) => MsgUpdateTokenResponse.decode(new Reader(data)));
+    UpdateDenom(request) {
+        const data = MsgUpdateDenom.encode(request).finish();
+        const promise = this.rpc.request('clockworkgr.pactolus.pactolus.Msg', 'UpdateDenom', data);
+        return promise.then((data) => MsgUpdateDenomResponse.decode(new Reader(data)));
     }
 }
 var globalThis = (() => {
